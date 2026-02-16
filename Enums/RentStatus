@@ -1,0 +1,8 @@
+public enum RentStatus
+{
+    Requested,
+    Approved,
+    Active,
+    Rejected,
+    Closed
+}
