@@ -10,5 +10,10 @@ namespace FishingShop
         {
             optionsBuilder.UseSqlServer("Server=localhost\\SQLEXPRESS;Database=FishingShopDb;Trusted_Connection=True;MultipleActiveResultSets=true;TrustServerCertificate=True;");
         }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            
+        }
     }
 }
