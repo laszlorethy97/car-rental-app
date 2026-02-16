@@ -12,3 +12,18 @@ C:\Users\laszl\Desktop\Projects\CarRentalSystem\obj\Debug\net10.0\refint\CarRent
 C:\Users\laszl\Desktop\Projects\CarRentalSystem\obj\Debug\net10.0\CarRentalSystem.pdb
 C:\Users\laszl\Desktop\Projects\CarRentalSystem\obj\Debug\net10.0\CarRentalSystem.genruntimeconfig.cache
 C:\Users\laszl\Desktop\Projects\CarRentalSystem\obj\Debug\net10.0\ref\CarRentalSystem.dll
+c:\Users\Voida\Desktop\Kozos Projekt\car-rental-app\bin\Debug\net10.0\CarRentalSystem.exe
+C:\Users\Voida\Desktop\Kozos Projekt\car-rental-app\bin\Debug\net10.0\CarRentalSystem.deps.json
+C:\Users\Voida\Desktop\Kozos Projekt\car-rental-app\bin\Debug\net10.0\CarRentalSystem.runtimeconfig.json
+c:\Users\Voida\Desktop\Kozos Projekt\car-rental-app\bin\Debug\net10.0\CarRentalSystem.dll
+c:\Users\Voida\Desktop\Kozos Projekt\car-rental-app\bin\Debug\net10.0\CarRentalSystem.pdb
+c:\Users\Voida\Desktop\Kozos Projekt\car-rental-app\obj\Debug\net10.0\CarRentalSystem.GeneratedMSBuildEditorConfig.editorconfig
+c:\Users\Voida\Desktop\Kozos Projekt\car-rental-app\obj\Debug\net10.0\CarRentalSystem.AssemblyInfoInputs.cache
+c:\Users\Voida\Desktop\Kozos Projekt\car-rental-app\obj\Debug\net10.0\CarRentalSystem.AssemblyInfo.cs
+c:\Users\Voida\Desktop\Kozos Projekt\car-rental-app\obj\Debug\net10.0\CarRentalSystem.csproj.CoreCompileInputs.cache
+c:\Users\Voida\Desktop\Kozos Projekt\car-rental-app\obj\Debug\net10.0\CarRentalSystem.sourcelink.json
+c:\Users\Voida\Desktop\Kozos Projekt\car-rental-app\obj\Debug\net10.0\CarRentalSystem.dll
+c:\Users\Voida\Desktop\Kozos Projekt\car-rental-app\obj\Debug\net10.0\refint\CarRentalSystem.dll
+c:\Users\Voida\Desktop\Kozos Projekt\car-rental-app\obj\Debug\net10.0\CarRentalSystem.pdb
+C:\Users\Voida\Desktop\Kozos Projekt\car-rental-app\obj\Debug\net10.0\CarRentalSystem.genruntimeconfig.cache
+C:\Users\Voida\Desktop\Kozos Projekt\car-rental-app\obj\Debug\net10.0\ref\CarRentalSystem.dll
