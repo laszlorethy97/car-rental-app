@@ -2,22 +2,11 @@ namespace CarRentalSystem;
 
 public class Rental
 {
-    public int _id;
-    public int _userId;
-    public int _carId;
-    public DateOnly? _startDate;
-    public DateOnly? _endDate;
-    public RentStatus? _rentStatus;
-    public bool _approved;
-
-    public Rental(int id, int userId, int carId, DateOnly? startDate, DateOnly? endDate, RentStatus? rentStatus, bool approved)
-    {
-        _id = id;
-        _userId = userId;
-        _carId = carId;
-        _startDate = startDate;
-        _endDate = endDate;
-        _rentStatus = rentStatus;
-        _approved = approved;
-    }
+    public int Id {get; set;}
+    public int UserId {get; set;}
+    public int CarId {get; set;}
+    public DateTime? StartDate {get; set;}
+    public DateTime? EndDate {get; set;}
+    public RentStatus? RentStatus {get; set;}
+    public bool Approved {get; set;}
 }
