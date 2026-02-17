@@ -7,4 +7,5 @@ public class Invoice
     public int? Amount {get; set;}
     public DateTime? IssueDate {get; set;}
     public DateTime? PayDate {get; set;}
+    public ICollection<Rental> Rentals {get; set;}
 }
