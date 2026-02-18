@@ -10,5 +10,5 @@ public class Car
     public int? Kilometrage {get; set;}
     public int? RentPrice {get; set;}
     public CarStatus CarStatus {get; set;}
-    public ICollection<Rental> Rentals {get; set;}
+    public ICollection<Rental> Rentals {get; set;} = new List<Rental>();
 }
