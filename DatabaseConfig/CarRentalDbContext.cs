@@ -38,6 +38,10 @@ public class CarRentalDbContext : DbContext
         .HasForeignKey<Invoice>(i => i.RentId)
         .OnDelete(DeleteBehavior.Cascade);
 
+        modelBuilder.Entity<User>()
+        .HasMany(u => u.Roles)
+        .WithMany(r => r.Users);
+
         base.OnModelCreating(modelBuilder);
     }
 }
