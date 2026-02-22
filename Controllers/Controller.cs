@@ -13,7 +13,7 @@ public class CarRentalController: ControllerBase
         this.manager = manager;
     }
     
-    [HttpGet(Name = "GetCars")]
+    [HttpGet("cars", Name = "GetCars")]
     async public Task<List<Car>> GetCars()
     {
         return await manager.GetCars();
