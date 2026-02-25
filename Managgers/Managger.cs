@@ -15,4 +15,9 @@ public class Managger
     {
         return await context.Cars.ToListAsync();
     }
+
+    public async Task<Car?> GetCarById(int id)
+    {
+        return await context.Cars.FirstOrDefaultAsync(c => c.Id == id);
+    }
 }

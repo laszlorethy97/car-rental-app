@@ -18,5 +18,11 @@ public class CarRentalController: ControllerBase
     {
         return await manager.GetCars();
     }
+
+    [HttpGet("car/{id}", Name = "GetCar")]
+    async public Task<Car?> GetCarById(int id)
+    {
+        return await manager.GetCarById(id);
+    }
 }
 
