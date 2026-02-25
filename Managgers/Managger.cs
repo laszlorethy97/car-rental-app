@@ -20,4 +20,10 @@ public class Managger
     {
         return await context.Cars.FirstOrDefaultAsync(c => c.Id == id);
     }
+
+    public async Task AddCar(Car car)
+    {
+        await context.Cars.AddAsync(car);
+        await context.SaveChangesAsync();
+    }
 }

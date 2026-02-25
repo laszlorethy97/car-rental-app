@@ -24,5 +24,11 @@ public class CarRentalController: ControllerBase
     {
         return await manager.GetCarById(id);
     }
+
+    [HttpPost("car", Name = "AddCar")]
+    async public Task AddCar(Car car)
+    {
+        await manager.AddCar(car);
+    }
 }
 
