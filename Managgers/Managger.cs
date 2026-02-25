@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using Microsoft.VisualBasic;
 
 namespace CarRentalSystem;
 
@@ -25,5 +24,22 @@ public class Managger
     {
         await context.Cars.AddAsync(car);
         await context.SaveChangesAsync();
+    }
+    public async Task UpdateCarByid(int id, Car car)
+    {
+        Car? oldData = await context.Cars.FirstOrDefaultAsync(c => c.Id == id);
+        oldData = MakeCar(oldData, car);
+        await context.SaveChangesAsync();
+    }
+    private Car MakeCar(Car oldData, Car newData)
+    {
+        if(newData.Brand != null) oldData.Brand = newData.Brand;
+        if(newData.CarStatus != null) oldData.CarStatus = newData.CarStatus;
+        if(newData.Kilometrage != null) oldData.Kilometrage = newData.Kilometrage;
+        if(newData.LicensePlate != null) oldData.LicensePlate = newData.LicensePlate;
+        if(newData.Model != null) oldData.Model = newData.Model;
+        if(newData.RentPrice != null) oldData.RentPrice = newData.RentPrice;
+        if(newData.Year != null) oldData.Year = newData.Year;
+        return oldData;        
     }
 }

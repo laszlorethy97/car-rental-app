@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption.ConfigurationModel;
 using Microsoft.AspNetCore.Mvc;
 
+
 namespace CarRentalSystem;
 
 [ApiController]
@@ -29,6 +30,12 @@ public class CarRentalController: ControllerBase
     async public Task AddCar(Car car)
     {
         await manager.AddCar(car);
+    }
+
+    [HttpPatch("car/{id}", Name = "UpdateCar")]
+    public async Task UpdateCarByid(int id, [FromBody] Car car)
+    {
+        await manager.UpdateCarByid(id, car);
     }
 }
 

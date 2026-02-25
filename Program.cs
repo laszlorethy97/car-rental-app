@@ -13,6 +13,7 @@ public class Program
     builder.Services.AddDbContext<CarRentalDbContext>();
     builder.Services.AddScoped<Managger>();
     builder.Services.AddControllers();
+    builder.Services.AddControllers().AddNewtonsoftJson();
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen();
 
