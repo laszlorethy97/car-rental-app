@@ -95,5 +95,29 @@ public class CarRentalController: ControllerBase
     {
         await manager.UpdateInvoice(id, invoice);
     }
+
+    [HttpGet("rentals", Name = "GetRentals")]
+    async public Task<List<Rental>> GetRentals()
+    {
+        return await manager.GetRentals();
+    }
+
+    [HttpGet("rental/{id}", Name = "GetRental")]
+    async public Task<Rental?> GetRentalById(int id)
+    {
+        return await manager.GetRentalById(id);
+    }
+
+    [HttpPost("rental", Name = "AddRental")]
+    async public Task AddRental(Rental rental)
+    {
+        await manager.AddRental(rental);
+    }
+
+    [HttpPatch("rental/{id}", Name = "UpdateRental")]
+    public async Task UpdateRentalByid(int id, [FromBody] Rental rental)
+    {
+        await manager.UpdateRentalByid(id, rental);
+    }
 }
 

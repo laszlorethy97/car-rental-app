@@ -98,4 +98,34 @@ public class Managger
         await context.SaveChangesAsync();
     }
 
+    public async Task<List<Rental>> GetRentals()
+    {
+        return await context.Rentals.ToListAsync();
+    }
+
+    public async Task<Rental?> GetRentalById(int id)
+    {
+        return await context.Rentals.FirstOrDefaultAsync(r => r.Id == id);
+    }
+
+    public async Task AddRental(Rental rental)
+    {
+        await context.Rentals.AddAsync(rental);
+        await context.SaveChangesAsync();
+    }
+    public async Task UpdateRentalByid(int id, Rental rental)
+    {
+        Rental? oldData = await context.Rentals.FirstOrDefaultAsync(r => r.Id == id);
+        oldData = MakeRental(oldData, rental);
+        await context.SaveChangesAsync();
+    }
+    private Rental MakeRental(Rental oldData, Rental newData)
+    {
+        if(newData.StartDate != null) oldData.StartDate = newData.StartDate;
+        if(newData.EndDate != null) oldData.EndDate = newData.EndDate;
+        if(newData.RentStatus != null) oldData.RentStatus = newData.RentStatus;
+        if(newData.ApprovedByUser != null) oldData.ApprovedByUser = newData.ApprovedByUser;
+        if(newData.ApprovedByUserId != null) oldData.ApprovedByUserId = newData.ApprovedByUserId;
+        return oldData;        
+    }
 }
