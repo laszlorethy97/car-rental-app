@@ -110,17 +110,9 @@ public class Managger
     }
     public async Task UpdateRentalByid(int id, Rental rental)
     {
-        Rental? oldData = await context.Rentals.FirstOrDefaultAsync(r => r.Id == id);
-        oldData = MakeRental(oldData, rental);
+        rental.Id = id;
+        context.Rentals.Update(rental);
         await context.SaveChangesAsync();
     }
-    private Rental MakeRental(Rental oldData, Rental newData)
-    {
-        if(newData.StartDate != null) oldData.StartDate = newData.StartDate;
-        if(newData.EndDate != null) oldData.EndDate = newData.EndDate;
-        if(newData.RentStatus != null) oldData.RentStatus = newData.RentStatus;
-        if(newData.ApprovedByUser != null) oldData.ApprovedByUser = newData.ApprovedByUser;
-        if(newData.ApprovedByUserId != null) oldData.ApprovedByUserId = newData.ApprovedByUserId;
-        return oldData;        
-    }
+
 }
