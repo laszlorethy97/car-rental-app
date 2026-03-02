@@ -25,7 +25,16 @@ public class Managger
         await context.Cars.AddAsync(car);
         await context.SaveChangesAsync();
     }
-    public async Task UpdateCarByid(int id, Car car)
+
+    public async Task UpdateCar(int id, Car car)
+    {
+        car.Id = id;
+        context.Cars.Update(car);
+        await context.SaveChangesAsync();
+    }
+
+
+    /*public async Task UpdateCarByid(int id, Car car)
     {
         Car? oldData = await context.Cars.FirstOrDefaultAsync(c => c.Id == id);
         oldData = MakeCar(oldData, car);
@@ -41,5 +50,5 @@ public class Managger
         if(newData.RentPrice != null) oldData.RentPrice = newData.RentPrice;
         if(newData.Year != null) oldData.Year = newData.Year;
         return oldData;        
-    }
+    }*/
 }

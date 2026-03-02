@@ -32,10 +32,18 @@ public class CarRentalController: ControllerBase
         await manager.AddCar(car);
     }
 
-    [HttpPatch("car/{id}", Name = "UpdateCar")]
+    [HttpPut("car/{id}", Name = "UpdateCar")]
+    public async Task UpdateCar(int id, [FromBody] Car car)
+    {
+        await manager.UpdateCar(id, car);
+    }
+
+
+
+    /*[HttpPatch("car/{id}", Name = "UpdateCar")]
     public async Task UpdateCarByid(int id, [FromBody] Car car)
     {
         await manager.UpdateCarByid(id, car);
-    }
+    }*/
 }
 
