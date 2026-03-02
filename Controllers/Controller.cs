@@ -114,7 +114,7 @@ public class CarRentalController: ControllerBase
         await manager.AddRental(rental);
     }
 
-    [HttpPatch("rental/{id}", Name = "UpdateRental")]
+    [HttpPut("rental/{id}", Name = "UpdateRental")]
     public async Task UpdateRentalByid(int id, [FromBody] Rental rental)
     {
         await manager.UpdateRentalByid(id, rental);
