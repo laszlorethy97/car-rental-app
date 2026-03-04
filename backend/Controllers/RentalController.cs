@@ -9,33 +9,33 @@ namespace CarRentalSystem;
 [Route("api/CarRental")]
 public class RentalController: ControllerBase
 {
-    RentalManager managger;
-    public RentalController(RentalManager managger)
+    RentalManager manager;
+    public RentalController(RentalManager manager)
     {
-        this.managger = managger;
+        this.manager = manager;
     }
 
     [HttpGet("rentals", Name = "GetRentals")]
     async public Task<List<Rental>> GetRentals()
     {
-        return await managger.GetRentals();
+        return await manager.GetRentals();
     }
 
     [HttpGet("rental/{id}", Name = "GetRental")]
     async public Task<Rental?> GetRentalById(int id)
     {
-        return await managger.GetRentalById(id);
+        return await manager.GetRentalById(id);
     }
 
     [HttpPost("rental", Name = "AddRental")]
     async public Task AddRental(Rental rental)
     {
-        await managger.AddRental(rental);
+        await manager.AddRental(rental);
     }
 
     [HttpPut("rental/{id}", Name = "UpdateRental")]
     public async Task UpdateRentalByid(int id, [FromBody] Rental rental)
     {
-        await managger.UpdateRentalByid(id, rental);
+        await manager.UpdateRentalByid(id, rental);
     }
 }

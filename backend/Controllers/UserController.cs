@@ -9,33 +9,33 @@ namespace CarRentalSystem;
 [Route("api/CarRental")]
 public class UserController: ControllerBase
 {
-    UserManager managger;
-    public UserController(UserManager managger)
+    UserManager manager;
+    public UserController(UserManager manager)
     {
-        this.managger = managger;
+        this.manager = manager;
     }
 
     [HttpGet("users", Name = "GetUsers")]
     async public Task<List<User>> GetUsers()
     {
-        return await managger.GetUsers();
+        return await manager.GetUsers();
     }
 
     [HttpGet("user/{id}", Name = "GetUser")]
     async public Task<User?> GetUserById(int id)
     {
-        return await managger.GetUserById(id);
+        return await manager.GetUserById(id);
     }
 
     [HttpPost("user", Name = "AddUser")]
     async public Task AddUser(User user)
     {
-        await managger.AddUser(user);
+        await manager.AddUser(user);
     }
 
     [HttpPut("user/{id}", Name = "Updateuser")]
     public async Task UpdateUser(int id, [FromBody] User user)
     {
-        await managger.UpdateUser(id, user);
+        await manager.UpdateUser(id, user);
     }
 }

@@ -9,33 +9,33 @@ namespace CarRentalSystem;
 [Route("api/CarRental")]
 public class InvoiceController: ControllerBase
 {
-    InvoiceManager managger;
-    public InvoiceController(InvoiceManager managger)
+    InvoiceManager manager;
+    public InvoiceController(InvoiceManager manager)
     {
-        this.managger = managger;
+        this.manager = manager;
     }
     [HttpGet("invoices", Name = "GetInvoices")]
     async public Task<List<Invoice>> GetInvoice()
     {
-        return await managger.GetInvoice();
+        return await manager.GetInvoice();
     }
 
     [HttpGet("invoice/{id}", Name = "GetInvoice")]
     async public Task<Invoice?> GetInvoiceById(int id)
     {
-        return await managger.GetInvoiceById(id);
+        return await manager.GetInvoiceById(id);
     }
 
     [HttpPost("invoice", Name = "AddInvoice")]
     async public Task AddInvoice(Invoice invoice)
     {
-        await managger.AddInvoice(invoice);
+        await manager.AddInvoice(invoice);
     }
 
     [HttpPut("invoice/{id}", Name = "UpdateInvoice")]
     public async Task UpdateInvoice(int id, [FromBody] Invoice invoice)
     {
-        await managger.UpdateInvoice(id, invoice);
+        await manager.UpdateInvoice(id, invoice);
     }
  
 }

@@ -17,7 +17,8 @@ public class UserManager
 
     public async Task<User?> GetUserById(int id)
     {
-        return await context.Users.Include(user => user.Roles).FirstOrDefaultAsync(c => c.Id == id);
+        return await context.Users.Include(user => user.Roles).
+            FirstOrDefaultAsync(c => c.Id == id);
     }
 
     public async Task AddUser(User user)
@@ -32,4 +33,7 @@ public class UserManager
         context.Users.Update(user);
         await context.SaveChangesAsync();
     }
+
+
+
 }
