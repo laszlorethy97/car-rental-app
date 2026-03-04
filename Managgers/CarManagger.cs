@@ -9,7 +9,7 @@ public class CarManagger
     {
         this.context = context;
     }
-    
+
     public async Task<List<Car>> GetCars()
     {
         return await context.Cars.ToListAsync();
@@ -28,7 +28,5 @@ public class CarManagger
         car.Id = id;
         context.Cars.Update(car);
         await context.SaveChangesAsync();
-    }
-
-    
+    } 
 }
