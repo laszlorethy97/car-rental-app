@@ -1,5 +1,21 @@
 # See https://docs.github.com/get-started/getting-started-with-git/ignoring-files for more about ignoring files.
 
+# IDEk
+.vscode/
+.idea/
+
+# Angular CLI
+.angular/
+
+# Node modules
+node_modules/
+
+# Build output
+dist/
+out-tsc/
+tmp/
+temp/
+
 # Compiled output
 /dist
 /tmp
