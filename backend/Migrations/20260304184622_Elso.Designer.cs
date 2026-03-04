@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CarRentalSystem.Migrations
 {
     [DbContext(typeof(CarRentalDbContext))]
-    [Migration("20260219163743_AddUserRoleManyToMany")]
-    partial class AddUserRoleManyToMany
+    [Migration("20260304184622_Elso")]
+    partial class Elso
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

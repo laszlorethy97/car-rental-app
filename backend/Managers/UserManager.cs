@@ -2,10 +2,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CarRentalSystem;
 
-public class UserManagger
+public class UserManager
 {
     private readonly CarRentalDbContext context;
-    public UserManagger(CarRentalDbContext context)
+    public UserManager(CarRentalDbContext context)
     {
         this.context = context;
     }

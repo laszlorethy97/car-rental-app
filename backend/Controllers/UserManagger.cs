@@ -9,8 +9,8 @@ namespace CarRentalSystem;
 [Route("api/CarRental")]
 public class UserController: ControllerBase
 {
-    UserManagger managger;
-    public UserController(UserManagger managger)
+    UserManager managger;
+    public UserController(UserManager managger)
     {
         this.managger = managger;
     }
