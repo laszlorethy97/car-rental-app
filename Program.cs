@@ -11,7 +11,10 @@ public class Program
   {
     var builder = WebApplication.CreateBuilder(args);
     builder.Services.AddDbContext<CarRentalDbContext>();
-    builder.Services.AddScoped<Managger>();
+    builder.Services.AddScoped<CarManagger>();
+    builder.Services.AddScoped<InvoiceManagger>();
+    builder.Services.AddScoped<RentalManagger>();
+    builder.Services.AddScoped<UserManagger>();
     builder.Services.AddControllers();
     builder.Services.AddControllers().AddNewtonsoftJson();
     builder.Services.AddEndpointsApiExplorer();
