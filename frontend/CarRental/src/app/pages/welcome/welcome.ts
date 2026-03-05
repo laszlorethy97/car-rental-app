@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-welcome',
@@ -6,4 +8,19 @@ import { Component } from '@angular/core';
   templateUrl: './welcome.html',
   styleUrl: './welcome.scss',
 })
-export class Welcome {}
+export class Welcome {
+
+  constructor(private readonly router: Router){}
+
+  navigateToRegisterComponent(){
+    this.router.navigate(['register']);
+  }
+
+  navigateToLoginComponent(){
+    this.router.navigate(['login']);
+  }
+
+  navigateToGuesAccessComponent(){
+    this.router.navigate(['guest-access']);
+  }
+}
