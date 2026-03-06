@@ -4,6 +4,8 @@ import { GuestAccess } from './pages/guest-access/guest-access';
 import { Login } from './pages/login/login';
 import { Register } from './pages/register/register';
 import { Welcome } from './pages/welcome/welcome';
+import { Dashboard } from './pages/dashboard/dashboard';
+import { GuestForm } from './pages/guest-form/guest-form';
 
 export const routes: Routes = [
     {
@@ -25,7 +27,15 @@ export const routes: Routes = [
             {
                 path: 'guest-access',
                 component: GuestAccess
-            }        
+            },
+            {
+                path: 'deshboard',
+                component: Dashboard
+            },
+            {
+                path: 'guest-form',
+                component: GuestForm
+            }    
         ]
     }
 ];

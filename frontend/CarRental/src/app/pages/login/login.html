@@ -1,1 +1,16 @@
-<p>login works!</p>
+<div class="wrapper">
+    <h3>Login</h3>
+    <form class="form-container" (ngSubmit)="getForm(user)" #user="ngForm">
+        <div>
+            <label for="userName">UserName</label>
+            <input class="input" ngModel type="text" name="userName" id="userName">
+        </div>
+        <div>
+            <label for="passWord">PassWord</label>
+            <input class="input" ngModel type="password" name="passWord" id="passWord">
+        </div>
+        <div>
+            <button class="button" type="submit">Login</button>
+        </div>
+    </form>
+</div>

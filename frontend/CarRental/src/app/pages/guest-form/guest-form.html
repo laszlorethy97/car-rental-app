@@ -1,20 +1,6 @@
 <div class="wrapper">
-  <h3>Registration</h3>
+  <h3>Get Your Personal Data</h3>
   <form class="form-container" (ngSubmit)="getForm(userForm)" #userForm="ngForm">
-    <div>
-      <label for="userName">Username</label>
-      <input class="input" type="text" name="userName" id="userName" ngModel required #userName="ngModel">
-      <div *ngIf="userName.invalid && userName.touched" style="color:red">
-        Username is required!
-      </div>
-    </div>
-    <div>
-      <label for="passWord">Password</label>
-      <input class="input" type="password" name="passWord" id="passWord" ngModel required minlength="4" #passWord="ngModel">
-      <div *ngIf="passWord.invalid && passWord.touched" style="color:red">
-        Password must be at least 4 characters
-      </div>
-    </div>
     <div>
       <label for="email">Email</label>
       <input class="input" type="email" name="email" id="email" ngModel
@@ -63,7 +49,7 @@
       </div>
     </div>
     <div>
-      <button class="button" type="submit" [disabled]="userForm.invalid">Register</button>
+      <button class="button" type="submit" [disabled]="userForm.invalid">send</button>
     </div>
 
   </form>

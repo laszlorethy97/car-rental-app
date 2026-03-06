@@ -1,1 +1,15 @@
-<p>guest-access works!</p>
+<div class="wrapper">
+    <H3>Car Rental</H3>
+    <div class="container">
+        <ol class="cars-list">
+            <li *ngFor="let car of cars" class="car">
+                <div>Brand: {{car.brand}}</div>
+                <div>Model: {{car.model}}</div>
+                <div>Year: {{car.year}}</div>
+                <div>Year: {{car.description}}</div>
+                <div>Year: {{car.year}}</div>
+                <button (click)="navigateForm()" class="button">rent car</button>
+            </li>
+        </ol>
+    </div>
+</div>
