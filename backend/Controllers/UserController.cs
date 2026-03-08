@@ -6,7 +6,7 @@ using Microsoft.IdentityModel.Tokens;
 namespace CarRentalSystem;
 
 [ApiController]
-[Route("api/CarRental")]
+[Route("api/CarRental/user")]
 public class UserController: ControllerBase
 {
     UserManager manager;
@@ -27,10 +27,15 @@ public class UserController: ControllerBase
         return await manager.GetUserById(id);
     }
 
-    [HttpPost("user", Name = "AddUser")]
-    async public Task AddUser(User user)
+    [HttpPost("registration", Name = "AddUser")]
+    async public Task<IActionResult> AddUser(RegistrationUserPostDTO registrationUserPostDTO)
     {
-        await manager.AddUser(user);
+        bool succes = await manager.AddUser(registrationUserPostDTO);
+        if (!succes)
+        {
+            return BadRequest(new { message = "The username or email is already taken." });
+        }
+        return Ok(new { message = "Registration successful." }); 
     }
 
     [HttpPut("user/{id}", Name = "Updateuser")]
