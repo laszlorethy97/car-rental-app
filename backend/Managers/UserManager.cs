@@ -33,7 +33,4 @@ public class UserManager
         context.Users.Update(user);
         await context.SaveChangesAsync();
     }
-
-
-
 }

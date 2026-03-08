@@ -7,6 +7,7 @@ public class CarRentalDbContext : DbContext
     public DbSet<Rental> Rentals { get; set; } = null!;
     public DbSet<Car> Cars { get; set; } = null!;
     public DbSet<Invoice> Invoices { get; set; } = null!;
+    public DbSet<CarMaintenance> CarMaintenances { get; set; } = null!;
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         optionsBuilder.UseSqlServer("Server=localhost\\SQLEXPRESS;Database=CarRentalDb;Trusted_Connection=True;MultipleActiveResultSets=true;TrustServerCertificate=True;");
@@ -41,6 +42,12 @@ public class CarRentalDbContext : DbContext
         modelBuilder.Entity<User>()
         .HasMany(u => u.Roles)
         .WithMany(r => r.Users);
+
+        modelBuilder.Entity<CarMaintenance>()
+        .HasOne(cm => cm.Car)
+        .WithMany(c => c.CarMaintenances)
+        .HasForeignKey(cm => cm.CarId)
+        .OnDelete(DeleteBehavior.Cascade);
 
         base.OnModelCreating(modelBuilder);
     }
