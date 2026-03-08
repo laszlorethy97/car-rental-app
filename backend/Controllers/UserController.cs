@@ -33,9 +33,9 @@ public class UserController: ControllerBase
         bool succes = await manager.AddUser(registrationUserPostDTO);
         if (!succes)
         {
-            return BadRequest("The username or email is already taken." );
+            return BadRequest(new { message = "The username or email is already taken." });
         }
-        return Ok("Registration successful."); 
+        return Ok(new { message = "Registration successful." }); 
     }
 
     [HttpPut("user/{id}", Name = "Updateuser")]
