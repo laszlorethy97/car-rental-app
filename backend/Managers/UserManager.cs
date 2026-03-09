@@ -58,11 +58,23 @@ public class UserManager
 
     public async Task<bool> ExistUser(RegistrationUserPostDTO registrationUserPostDTO)
     {
-        var existUser = await context.Users
+        bool existUser = await context.Users
         .AnyAsync(u => u.UserName == registrationUserPostDTO.UserName
                     || u.Email == registrationUserPostDTO.Email);
         return existUser;
     }
+
+
+    public async Task<bool> LoginUser(LoginUserPostDTO loginUserPostDTO)
+    {
+        User user = await this.context.Users.FirstOrDefaultAsync(u => u.UserName == loginUserPostDTO.UserName);
+        if(user == null)
+        {
+            return false;
+        }
+        return loginUserPostDTO.Password == user.Password;
+    }
+
 
     public async Task UpdateUser(int id, User user)
     {
