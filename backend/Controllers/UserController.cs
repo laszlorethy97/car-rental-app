@@ -38,6 +38,17 @@ public class UserController: ControllerBase
         return Ok(new { message = "Registration successful." }); 
     }
 
+    [HttpPost("login", Name = "LoginUser")]
+    public async Task<IActionResult> Login(LoginUserPostDTO loginUserPostDTO)
+    {
+        bool succes = await this.manager.LoginUser(loginUserPostDTO);
+        if (!succes)
+        {
+            return BadRequest(new { message = "Invalid username or password." });
+        }
+        return Ok(new { message = "Login successful" });
+    }
+
     [HttpPut("user/{id}", Name = "Updateuser")]
     public async Task UpdateUser(int id, [FromBody] User user)
     {
