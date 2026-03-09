@@ -10,7 +10,7 @@
     </div>
     <div>
       <label for="passWord">Password</label>
-      <input class="input" type="password" name="passWord" id="passWord" ngModel required minlength="4" #passWord="ngModel">
+      <input class="input" type="password" name="password" id="passWord" ngModel required minlength="4" #passWord="ngModel">
       <div *ngIf="passWord.invalid && passWord.touched" style="color:red">
         Password must be at least 4 characters
       </div>
@@ -27,7 +27,7 @@
     </div>
     <div>
       <label for="firstname">Firstname</label>
-      <input class="input" type="text" name="firstname" id="firstname" ngModel
+      <input class="input" type="text" name="firstName" id="firstname" ngModel
              required
              pattern="[A-Za-z]+"
              #firstname="ngModel">
@@ -37,7 +37,7 @@
     </div>
     <div>
       <label for="lastname">Lastname</label>
-      <input class="input" type="text" name="lastname" id="lastname" ngModel
+      <input class="input" type="text" name="lastName" id="lastname" ngModel
              required
              pattern="[A-Za-z]+"
              #lastname="ngModel">
@@ -54,7 +54,7 @@
     </div>
     <div class="indent">
       <label for="phone">Telephone Number</label>
-      <input class="input" type="tel" name="phone" id="phone" ngModel
+      <input class="input" type="tel" name="phoneNumber" id="phone" ngModel
              required
              pattern="[0-9]{9,11}"
              #phone="ngModel">
@@ -65,6 +65,5 @@
     <div>
       <button class="button" type="submit" [disabled]="userForm.invalid">Register</button>
     </div>
-
   </form>
 </div>
