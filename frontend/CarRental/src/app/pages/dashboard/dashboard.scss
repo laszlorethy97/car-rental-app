@@ -1,0 +1,83 @@
+:host {
+  display: block;
+  height: 100vh;
+  width: 100vw;
+}
+
+.wrapper{
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 100%; 
+  width: 100%; 
+  background-color: #CEE0FD;
+  padding: 0;
+  margin: 0;
+   background-image: linear-gradient(
+    to right,
+    rgba(255, 255, 255, 0.5) 0%,
+    rgba(206, 224, 253, 1) 30%,
+    rgba(206, 224, 253, 1) 100%
+  );
+}
+
+
+.header{
+    position: absolute;
+    top: 0;
+    height:110px;
+    background: linear-gradient(to right, #4A90E2, #1E3A8A);
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    color: white;
+}
+
+.page-body{
+    height: 500px;
+    width: 600px;
+    display: flex;
+    justify-content:first baseline;
+    align-items:center;
+    flex-direction: column;
+    background-color: #ffff;
+    background-image: 
+        linear-gradient(
+        rgba(255, 255, 255, 0.3),
+        rgba(255, 255, 255, 0)
+        ),
+        linear-gradient(
+        rgba(206, 224, 253, 0.2),
+        rgba(206, 224, 253, 0)
+        );
+    border-radius: 12px;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+}
+
+.text{
+    color: rgba(100, 100, 100, 0.7);
+}
+
+.button{
+    border-radius: 3%;
+    background: linear-gradient(135deg, #3B5998, #6C4AB6);
+    color: white;
+    width: 80px;
+    height: 50px;
+
+    &:hover{
+        background: linear-gradient(135deg, #6C4AB6, #3B5998);
+    }
+}
+
+.button-container{
+    display: flex;
+    justify-content:space-between
+}
+
+.picture{
+    height: 400px;
+    width:280px;
+}
