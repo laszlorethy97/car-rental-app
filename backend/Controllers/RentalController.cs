@@ -38,4 +38,11 @@ public class RentalController: ControllerBase
     {
         await manager.UpdateRentalByid(id, rental);
     }
+
+    //GetRentalHistory
+    [HttpGet("history", Name = "GetRentalHistory")]
+    public async Task<List<RentalHistoryGetDto>> GetRentalHistory()
+    {
+    return await manager.GetRentalHistory();
+    }
 }

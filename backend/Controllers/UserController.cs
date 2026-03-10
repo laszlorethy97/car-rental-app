@@ -15,6 +15,7 @@ public class UserController: ControllerBase
         this.manager = manager;
     }
 
+
     [HttpGet("users", Name = "GetUsers")]
     async public Task<List<User>> GetUsers()
     {
