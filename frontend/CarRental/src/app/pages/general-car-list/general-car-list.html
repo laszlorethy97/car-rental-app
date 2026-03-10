@@ -1,0 +1,14 @@
+<div class="wrapper">
+    <H3>Cars</H3>
+    <div class="container">
+        <ol class="car-list">
+            <li *ngFor="let car of cars" class="car">
+                <div>{{car.brand}}</div>
+                <div>{{car.model}}</div>
+                <div>{{car.year}}</div>
+                <button (click)="navigateRent()" class="button">rent</button>
+            </li>
+        </ol>
+        <button (click)="navigateBack()" class="back-button">back</button>
+    </div>
+</div>

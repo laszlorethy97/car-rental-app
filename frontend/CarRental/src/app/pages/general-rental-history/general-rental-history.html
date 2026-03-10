@@ -1,0 +1,13 @@
+<div class="wrapper">
+    <H3>Rental History</H3>
+    <div class="container">
+        <ol class="rental-list">
+            <li *ngFor="let rental of rentals" class="rental">
+                <div>{{rental.price}}</div>
+                <div>{{rental.start | date:'yyyy-MM-dd'}}</div>
+                <div>{{rental.end | date:'yyyy-MM-dd'}}</div>
+            </li>
+        </ol>
+        <button (click)="navigateBack()" class="button">back</button>
+    </div>
+</div>
