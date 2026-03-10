@@ -6,7 +6,7 @@ using Microsoft.IdentityModel.Tokens;
 namespace CarRentalSystem;
 
 [ApiController]
-[Route("api/CarRental")]
+[Route("api/CarRental/rental")]
 public class RentalController: ControllerBase
 {
     RentalManager manager;
@@ -41,8 +41,8 @@ public class RentalController: ControllerBase
 
     //GetRentalHistory
     [HttpGet("history", Name = "GetRentalHistory")]
-    public async Task<List<RentalHistoryGetDto>> GetRentalHistory()
+    public async Task <ActionResult<List<RentalHistoryGetDto>>> GetRentalHistory()
     {
-    return await manager.GetRentalHistory();
+        return Ok(await manager.GetRentalHistory());
     }
 }
