@@ -30,7 +30,7 @@ public class UserController: ControllerBase
     [HttpPost("registration", Name = "AddUser")]
     async public Task<IActionResult> AddUser(RegistrationUserPostDTO registrationUserPostDTO)
     {
-        bool succes = await manager.AddUser(registrationUserPostDTO);
+        bool succes = await manager.Registration(registrationUserPostDTO);
         if (!succes)
         {
             return BadRequest(new { message = "The username or email is already taken." });

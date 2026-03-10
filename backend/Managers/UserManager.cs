@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Migrations.Operations;
 
 namespace CarRentalSystem;
 
@@ -21,22 +22,52 @@ public class UserManager
             FirstOrDefaultAsync(c => c.Id == id);
     }
 
-    public async Task<bool> AddUser(RegistrationUserPostDTO registrationUserPostDTO)
+    public async Task<bool> Registration(RegistrationUserPostDTO registrationUserPostDTO)
     {
-        var exist = await ExistUser(registrationUserPostDTO);
-        if(exist)
+        bool usernameExists = await context.Users.AnyAsync(u => u.UserName == registrationUserPostDTO.UserName);
+        if(usernameExists) return false;
+        bool emailExist =  await context.Users.AnyAsync(u => u.Email == registrationUserPostDTO.Email);
+        if(emailExist)
         {
-            return false;
+            bool haveRole = await HaveRole(registrationUserPostDTO);
+            if (haveRole)
+            {
+                return false;
+            }
+            await UpdateUser(registrationUserPostDTO);
+            return true;  
         }
+        await AddUser(registrationUserPostDTO);
+        return true;
+    }
+
+    public async Task AddUser(RegistrationUserPostDTO registrationUserPostDTO)
+    {
         User user = await builduser(registrationUserPostDTO);
         await context.Users.AddAsync(user);
         await context.SaveChangesAsync();
-        return true;
+    }
+    public async Task<bool> HaveRole(RegistrationUserPostDTO registrationUserPostDTO)
+    {
+        return await context.Users.Where(u => u.Email == registrationUserPostDTO.Email)
+        .AnyAsync(u => u.Roles.Count > 0);
+    }
+    public async Task UpdateUser(RegistrationUserPostDTO registrationUserPostDTO)
+    {
+        List<Role> roles = await AddRoles(registrationUserPostDTO.RoleIds.ToList());
+        User user = await context.Users.FirstOrDefaultAsync(u => u.Email == registrationUserPostDTO.Email);
+        user.UserName = registrationUserPostDTO.UserName;
+        user.Password = registrationUserPostDTO.Password;
+        user.FirstName = registrationUserPostDTO.FirstName;
+        user.LastName = registrationUserPostDTO.LastName;
+        user.PhoneNumber = registrationUserPostDTO.PhoneNumber;
+        user.Address = registrationUserPostDTO.Address;
+        user.Roles = roles;
+        await context.SaveChangesAsync();
     }
 
     public async Task<User> builduser(RegistrationUserPostDTO registrationUserPostDTO)
     {
-
         List<Role> roles = await AddRoles(registrationUserPostDTO.RoleIds.ToList());
         return new User
         {
@@ -56,13 +87,6 @@ public class UserManager
         return await this.context.Roles.Where(r => roleIds.Contains(r.Id)).ToListAsync();
     }
 
-    public async Task<bool> ExistUser(RegistrationUserPostDTO registrationUserPostDTO)
-    {
-        bool existUser = await context.Users
-        .AnyAsync(u => u.UserName == registrationUserPostDTO.UserName
-                    || u.Email == registrationUserPostDTO.Email);
-        return existUser;
-    }
 
 
     public async Task<bool> LoginUser(LoginUserPostDTO loginUserPostDTO)
