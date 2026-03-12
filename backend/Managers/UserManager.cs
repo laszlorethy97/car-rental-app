@@ -16,10 +16,19 @@ public class UserManager
         return await context.Users.Include(user => user.Roles).ToListAsync();
     }
 
-    public async Task<User?> GetUserById(int id)
+    public async Task<EditProfileGetDTO> GetUserById(int id)
     {
-        return await context.Users.Include(user => user.Roles).
-            FirstOrDefaultAsync(c => c.Id == id);
+        User user =  await context.Users.FirstOrDefaultAsync(c => c.Id == id);
+        return new EditProfileGetDTO
+        {
+            Email = user.Email,
+            Password = user.Password,
+            UserName = user.UserName,
+            FirstName = user.FirstName,
+            LastName = user.LastName,
+            PhoneNumber = user.PhoneNumber,
+            Address = user.Address
+        };
     }
 
     public async Task<bool> Registration(RegistrationUserPostDTO registrationUserPostDTO)
@@ -87,8 +96,6 @@ public class UserManager
         return await this.context.Roles.Where(r => roleIds.Contains(r.Id)).ToListAsync();
     }
 
-
-
     public async Task<bool> LoginUser(LoginUserPostDTO loginUserPostDTO)
     {
         User user = await this.context.Users.FirstOrDefaultAsync(u => u.UserName == loginUserPostDTO.UserName);
@@ -98,7 +105,6 @@ public class UserManager
         }
         return loginUserPostDTO.Password == user.Password;
     }
-
 
     public async Task UpdateUser(int id, User user)
     {

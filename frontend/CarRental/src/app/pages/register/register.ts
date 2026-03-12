@@ -3,6 +3,7 @@ import { FormsModule, NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { UserService } from '../../services/user.service';
+import { RegistrationUserDto } from '../../models/registration-user-dto';
 
 @Component({
   selector: 'app-register',
@@ -17,8 +18,9 @@ export class Register {
     private readonly userService: UserService
   ){}
 
-  getForm(user: NgForm) {
-    this.userService.registration(user.value).subscribe({
+  getForm(form: NgForm) {
+    const user = form.value as unknown as RegistrationUserDto
+    this.userService.registration(user).subscribe({
       next: (res) => {
         this.router.navigate(['deshboard']);
       },

@@ -15,16 +15,17 @@ public class UserController: ControllerBase
         this.manager = manager;
     }
 
-    [HttpGet("users", Name = "GetUsers")]
+    [HttpGet("user", Name = "GetUsers")]
     async public Task<List<User>> GetUsers()
     {
         return await manager.GetUsers();
     }
 
-    [HttpGet("user/{id}", Name = "GetUser")]
-    async public Task<User?> GetUserById(int id)
+    [HttpGet("name/{id}", Name = "GetUser")]
+    async public Task<IActionResult> GetUserById(int id)
     {
-        return await manager.GetUserById(id);
+        EditProfileGetDTO dto = await manager.GetUserById(id);
+        return Ok(dto);
     }
 
     [HttpPost("registration", Name = "AddUser")]
