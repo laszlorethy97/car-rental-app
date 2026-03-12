@@ -10,13 +10,35 @@ public class CarManager
         this.context = context;
     }
 
-    public async Task<List<Car>> GetCars()
+    public async Task<List<CarsGetDTO>> GetCars()
     {
-        return await context.Cars.ToListAsync();
+        return await context.Cars.Select(c => new CarsGetDTO
+        {
+            Id = c.Id,
+            LicensePlate = c.LicensePlate,
+            Brand = c.Brand,
+            Model = c.Model,
+            Year = c.Year ?? 0,
+            Kilometrage = c.Kilometrage ?? 0,
+            RentPrice = c.RentPrice ?? 0,
+            CarStatus = c.CarStatus,
+            CarMaintenances = c.CarMaintenances
+        }).ToListAsync();
     }
-    public async Task<Car?> GetCarById(int id)
+    public async Task<CarsGetDTO?> GetCarById(int id)
     {
-        return await context.Cars.FirstOrDefaultAsync(c => c.Id == id);
+        return await context.Cars.Select(c =>  new CarsGetDTO
+        {
+            Id = c.Id,
+            LicensePlate = c.LicensePlate,
+            Brand = c.Brand,
+            Model = c.Model,
+            Year = c.Year ?? 0,
+            Kilometrage = c.Kilometrage ?? 0,
+            RentPrice = c.RentPrice ?? 0,
+            CarStatus = c.CarStatus,
+            CarMaintenances = c.CarMaintenances
+        }).FirstOrDefaultAsync(c => c.Id == id);
     }
     public async Task AddCar(Car car)
     {

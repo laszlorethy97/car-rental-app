@@ -16,7 +16,7 @@ public class RentalController: ControllerBase
     }
 
     [HttpGet("rentals", Name = "GetRentals")]
-    async public Task<List<Rental>> GetRentals()
+    async public Task<List<RentalGetDTO>> GetRentals()
     {
         return await manager.GetRentals();
     }
@@ -28,9 +28,9 @@ public class RentalController: ControllerBase
     }
 
     [HttpPost("rental", Name = "AddRental")]
-    async public Task AddRental(Rental rental)
+    async public Task AddRental(RentalPostDTO RPD)
     {
-        await manager.AddRental(rental);
+        await manager.AddRental(RPD);
     }
 
     [HttpPut("rental/{id}", Name = "UpdateRental")]

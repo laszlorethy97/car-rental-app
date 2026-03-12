@@ -16,13 +16,13 @@ public class CarController: ControllerBase
     }
 
     [HttpGet("cars", Name = "GetCars")]
-    async public Task<List<Car>> GetCars()
+    async public Task<List<CarsGetDTO>> GetCars()
     {
         return await manager.GetCars();
     }
 
     [HttpGet("car/{id}", Name = "GetCar")]
-    async public Task<Car?> GetCarById(int id)
+    async public Task<CarsGetDTO?> GetCarById(int id)
     {
         return await manager.GetCarById(id);
     }
