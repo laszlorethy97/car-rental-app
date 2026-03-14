@@ -108,11 +108,11 @@ public class UserManager
 
     public async Task<bool> UpdateGuestUser(int id, UserEditProfilePutDto dto)
     {
-        User user = await context.Users.FindAsync(dto.Id);
-        var FindUserByEmailAndName = await context.Users
-            .FirstOrDefaultAsync(u =>
-                u.Email == dto.Email &&
-                u.UserName == dto.UserName);
+        User user = await context.Users.FindAsync(id);
+        //var FindUserByEmailAndName = await context.Users
+        //    .FirstOrDefaultAsync(u =>
+        //        u.Email == dto.Email &&
+        //        u.UserName == dto.UserName);
 
         if (user == null)
         {
@@ -122,9 +122,6 @@ public class UserManager
             user.Email = dto.Email;
         if(dto.UserName != user.UserName)
             user.UserName = dto.UserName;
-
-        if (dto.FirstName != null)
-            user.FirstName = dto.FirstName;
         if (dto.Password != null)
             user.Password = dto.Password;
         if (dto.FirstName != null)
