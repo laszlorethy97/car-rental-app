@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 
 
+
 namespace CarRentalSystem;
 
 [ApiController]
@@ -51,8 +52,14 @@ public class UserController: ControllerBase
     }
 
     [HttpPut("user/{id}", Name = "Updateuser")]
-    public async Task UpdateUser(int id, [FromBody] User user)
+    public async Task<IActionResult> UpdateUser(int id, [FromBody] UserEditProfilePutDto dto)
     {
-        await manager.UpdateUser(id, user);
+        bool success = await manager.UpdateGuestUser(id, dto);
+        if (!success)
+        {
+            return BadRequest(new { message = "Invalid username or password." });
+        }
+        return Ok(new { message = "Login successful" });
     }
+
 }
