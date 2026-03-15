@@ -6,7 +6,7 @@ using Microsoft.IdentityModel.Tokens;
 namespace CarRentalSystem;
 
 [ApiController]
-[Route("api/CarRental")]
+[Route("api/CarRental/")]
 public class CarController: ControllerBase
 {
     CarManager manager;
