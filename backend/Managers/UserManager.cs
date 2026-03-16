@@ -1,5 +1,11 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Migrations.Operations;
+using System;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+
 
 namespace CarRentalSystem;
 
@@ -9,6 +15,20 @@ public class UserManager
     public UserManager(CarRentalDbContext context)
     {
         this.context = context;
+    }
+
+
+    private string BuildToken(User user)
+    {
+        var key = Encoding.ASCII.GetBytes("ezEgyNagyonTitkosKulcs123!Megerkezo");
+        var credentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256);
+        var claims = new[] { new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()) };
+        var token = new JwtSecurityToken(
+            claims: claims,
+            expires: DateTime.UtcNow.AddHours(1),
+            signingCredentials: credentials
+        );
+        return new JwtSecurityTokenHandler().WriteToken(token);
     }
 
     public async Task<List<User>> GetUsers()
@@ -96,14 +116,16 @@ public class UserManager
         return await this.context.Roles.Where(r => roleIds.Contains(r.Id)).ToListAsync();
     }
 
-    public async Task<bool> LoginUser(LoginUserPostDTO loginUserPostDTO)
+    public async Task<string?> LoginUser(LoginUserPostDTO loginUserPostDTO)
     {
-        User user = await this.context.Users.FirstOrDefaultAsync(u => u.UserName == loginUserPostDTO.UserName);
-        if(user == null)
+        User user = await this.context.Users
+            .FirstOrDefaultAsync(u => u.UserName == loginUserPostDTO.UserName);
+        if (user == null || loginUserPostDTO.Password != user.Password)
         {
-            return false;
+            return null;
         }
-        return loginUserPostDTO.Password == user.Password;
+        string token = BuildToken(user);
+        return token;
     }
 
     public async Task UpdateUser(int id, User user)
