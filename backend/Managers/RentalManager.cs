@@ -32,9 +32,14 @@ public class RentalManager
         await context.SaveChangesAsync();
     }
 
-    public async Task<List<RentalHistoryGetDto>> GetRentalHistory()
+    public async Task<List<RentalHistoryGetDto>> GetRentalHistory(int userId)
     {
-        var rentals = await context.Rentals.Include(r => r.Car).Include(r=> r.User).ToListAsync();
+        var rentals = await
+         context.Rentals.Include(r => r.Car)
+         .Include(r=> r.User)
+         .Where(r => r.UserId == userId)
+         .ToListAsync();
+
         return rentals.Select(r => new RentalHistoryGetDto
         {
             CarId = r.CarId,

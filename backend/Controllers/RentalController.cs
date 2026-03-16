@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption.ConfigurationModel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -39,10 +40,14 @@ public class RentalController: ControllerBase
         await manager.UpdateRentalByid(id, rental);
     }
 
-    //GetRentalHistory
+
     [HttpGet("history", Name = "GetRentalHistory")]
+    [Authorize]
     public async Task <ActionResult<List<RentalHistoryGetDto>>> GetRentalHistory()
     {
-        return Ok(await manager.GetRentalHistory());
+         var userIdClaim = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier);
+        if (userIdClaim == null) return Unauthorized("Invalid token: no user ID");
+        int userId = int.Parse(userIdClaim.Value);
+        return Ok(await manager.GetRentalHistory(userId));
     }
 }
