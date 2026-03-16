@@ -21,7 +21,7 @@ public class CarManager
             Year = c.Year ?? 0,
             Kilometrage = c.Kilometrage ?? 0,
             RentPrice = c.RentPrice ?? 0,
-            CarStatus = c.CarStatus,
+            CarStatus = c.CarStatus.ToString(),
         }).ToListAsync();
     }
     public async Task<CarsGetDTO?> GetCarById(int id)
@@ -35,7 +35,7 @@ public class CarManager
             Year = c.Year ?? 0,
             Kilometrage = c.Kilometrage ?? 0,
             RentPrice = c.RentPrice ?? 0,
-            CarStatus = c.CarStatus,
+            CarStatus = c.CarStatus.ToString(),
         }).FirstOrDefaultAsync(c => c.Id == id);
     }
     public async Task AddCar(Car car)

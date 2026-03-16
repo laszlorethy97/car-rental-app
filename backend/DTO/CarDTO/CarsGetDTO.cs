@@ -9,5 +9,5 @@ public class CarsGetDTO
     public int Year {get; set;}
     public int Kilometrage {get; set;}
     public int RentPrice {get; set;}
-    public CarStatus CarStatus {get; set;}
+    public string CarStatus {get; set;}
 }
