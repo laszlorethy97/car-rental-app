@@ -21,7 +21,7 @@ public class CarManager
             Year = c.Year ?? 0,
             Kilometrage = c.Kilometrage ?? 0,
             RentPrice = c.RentPrice ?? 0,
-            CarStatus = c.CarStatus,
+            CarStatus = c.CarStatus.ToString(),
             CarMaintenances = c.CarMaintenances
         }).ToListAsync();
     }
@@ -36,7 +36,7 @@ public class CarManager
             Year = c.Year ?? 0,
             Kilometrage = c.Kilometrage ?? 0,
             RentPrice = c.RentPrice ?? 0,
-            CarStatus = c.CarStatus,
+            CarStatus = c.CarStatus.ToString(),
             CarMaintenances = c.CarMaintenances
         }).FirstOrDefaultAsync(c => c.Id == id);
     }

@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption.ConfigurationModel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -28,9 +29,18 @@ public class RentalController: ControllerBase
     }
 
     [HttpPost("rental", Name = "AddRental")]
-    async public Task AddRental(RentalPostDTO RPD)
+    [Authorize]
+    async public Task<IActionResult> AddRental(RentalPostDTO RPD)
     {
-        await manager.AddRental(RPD);
+        int userId = int.Parse(User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value);
+        bool success = await manager.AddRental(RPD, userId);
+
+        if (!success)
+        {
+            return BadRequest("Car is under maintenace period");
+        }
+
+        return Ok("Rental request accepted");
     }
 
     [HttpPut("rental/{id}", Name = "UpdateRental")]
