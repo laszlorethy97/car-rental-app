@@ -32,17 +32,31 @@ public class RentalManager
         return await context.Rentals.FirstOrDefaultAsync(r => r.Id == id);
     }
     
-    public async Task AddRental(RentalPostDTO RPD)
+    public async Task<bool> AddRental(RentalPostDTO RPD, int userId)
     {
+
+        bool inMaintenace = await context.CarMaintenances.AnyAsync(m =>
+            m.CarId == RPD.CarId &&
+            DateTime.Parse(RPD.StartDate) <= m.EndDate &&
+            DateTime.Parse(RPD.EndDate) >= m.StartDate
+        );
+
+        if (inMaintenace)
+        {
+            return false;
+        }
+
         await context.Rentals.AddAsync(new Rental
         {
             CarId = RPD.CarId,
-            UserId = RPD.UserId,
-            StartDate = RPD.StartDate,
-            EndDate = RPD.EndDate,
+            UserId = userId,
+            StartDate = DateTime.Parse(RPD.StartDate),
+            EndDate = DateTime.Parse(RPD.EndDate),
             RentStatus = RentStatus.Requested
         });
+
         await context.SaveChangesAsync();
+        return true;
     }
     public async Task UpdateRentalByid(int id, Rental rental)
     {
