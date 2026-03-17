@@ -69,7 +69,7 @@ public class RentalManager
         await context.SaveChangesAsync();
     }
 
-    public async Task<List<RentalHistoryGetDto>> GetRentalHistory(int userId)
+    public async Task<List<RentalHistoryGetDTO>> GetRentalHistory(int userId)
     {
         var rentals = await
          context.Rentals.Include(r => r.Car)
@@ -77,7 +77,7 @@ public class RentalManager
          .Where(r => r.UserId == userId)
          .ToListAsync();
 
-        return rentals.Select(r => new RentalHistoryGetDto
+        return rentals.Select(r => new RentalHistoryGetDTO
         {
             CarId = r.CarId,
             LicensePlate = r.Car.LicensePlate,
