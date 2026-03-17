@@ -26,7 +26,8 @@ export class GuestAccess {
   loadCars(){
     this.carService.load().subscribe({
       next: (res) => {
-        this.cars = res; // => ENUM PROBLEMAJAT MEG KELL OLDANI
+        this.cars = res;
+        console.log(this.cars);
         this.changedetector.detectChanges();
       },
       error: (err) => {

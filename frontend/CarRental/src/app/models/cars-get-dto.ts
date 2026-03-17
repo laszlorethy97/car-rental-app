@@ -1,6 +1,6 @@
 export interface CarsGetDto {
     id: number;
-    licenseplate: string;
+    licensePlate: string;
     brand: string;
     model: string;
     year: number;
