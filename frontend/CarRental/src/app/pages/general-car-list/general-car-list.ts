@@ -2,6 +2,9 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Location } from '@angular/common';
 import { Router } from '@angular/router';
+import { CarService } from '../../services/car.service';
+import { CarsGetDto } from '../../models/cars-get-dto';
+import { ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'app-general-car-list',
@@ -13,28 +16,33 @@ export class GeneralCarList {
 
   constructor(
     private readonly location: Location,
-    private readonly router: Router
+    private readonly router: Router,
+    private readonly carService: CarService,
+    private readonly changedetector: ChangeDetectorRef
   ){}
 
-  cars: Car[] = [
-      { brand: 'Toyota', model: 'Corolla', year: 2020, description: 'Ez egy nagyon hosszú szöveg, ami biztosan nem fér el a dobozban, így scrollozható lesz.' },
-      { brand: 'Honda', model: 'Civic', year: 2019, description: 'Rövid szöveg.' },
-      { brand: 'Ford', model: 'Focus', year: 2018, description: 'Még egy hosszú szöveg példa, hogy látszódjon a scroll.' },
-
-    ];
+    cars: CarsGetDto[] = [];
+    ngOnInit(){
+      this.loadCars();
+    }
 
     navigateBack(){
       this.location.back();
     }
 
-    navigateRent(){
-      this.router.navigate(['general-rent-car']);
+    navigateRent(carId: number){
+      this.router.navigate(['general-rent-car', carId]);
     }
-}
 
-export interface Car {
-  brand: string;
-  model: string;
-  year: number;
-  description: string;
+    loadCars(){
+      this.carService.load().subscribe({
+        next: (res) => {
+          this.cars = res;
+          this.changedetector.detectChanges();
+        },
+        error: (err) => {
+          console.error('the cars cant load', err.message)
+        }
+      });
+    }
 }

@@ -3,10 +3,15 @@
     <div class="container">
         <ol class="car-list">
             <li *ngFor="let car of cars" class="car">
-                <div>{{car.brand}}</div>
-                <div>{{car.model}}</div>
-                <div>{{car.year}}</div>
-                <button (click)="navigateRent()" class="button">rent</button>
+                <div>Car id number: {{car.id}}</div>
+                <div>licenseplate: {{car.model}}</div>
+                <div>brand: {{car.brand}}</div>
+                <div>model: {{car.model}}</div>
+                <div>year: {{car.year}}</div>
+                <div>kilometrage: {{car.kilometrage}}</div>
+                <div>rentPrice: {{car.rentPrice}}</div>
+                <div>carstatus: {{car.carStatus}}</div>
+                <button (click)="navigateRent(car.id)" class="button">rent</button>
             </li>
         </ol>
         <button (click)="navigateBack()" class="back-button">back</button>

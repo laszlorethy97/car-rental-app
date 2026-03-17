@@ -10,7 +10,7 @@
     </div>
     <div>
       <label for="passWord">Password</label>
-      <input class="input" type="password" name="password" id="passWord" [(ngModel)]="user.password" required minlength="4" #passWord="ngModel">
+      <input class="input" type="text" name="password" id="passWord" [(ngModel)]="user.password" required minlength="4" #passWord="ngModel">
       <div *ngIf="passWord.invalid && passWord.touched" style="color:red">
         Password must be at least 4 characters
       </div>

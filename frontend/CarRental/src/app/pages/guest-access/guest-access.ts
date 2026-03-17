@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { CarService } from '../../services/car.service';
+import { ChangeDetectorRef } from '@angular/core';
+import { CarsGetDto } from '../../models/cars-get-dto';
 
 @Component({
   selector: 'app-guest-access',
@@ -9,33 +12,31 @@ import { Router } from '@angular/router';
   styleUrl: './guest-access.scss',
 })
 export class GuestAccess {
+  cars: CarsGetDto[] = [];
 
-  constructor(private readonly router: Router){}
+  constructor(
+    private readonly router: Router,
+    private readonly carService: CarService,
+    private readonly changedetector: ChangeDetectorRef
+  ){}
+  ngOnInit(){
+    this.loadCars();
+  }
 
-  cars: Car[] = [
-    { brand: 'Toyota', model: 'Corolla', year: 2020, description: 'Ez egy nagyon hosszú szöveg, ami biztosan nem fér el a dobozban, így scrollozható lesz.' },
-    { brand: 'Honda', model: 'Civic', year: 2019, description: 'Rövid szöveg.' },
-    { brand: 'Ford', model: 'Focus', year: 2018, description: 'Még egy hosszú szöveg példa, hogy látszódjon a scroll.' },
-    { brand: 'Ford', model: 'Focus', year: 2018, description: 'Még egy hosszú szöveg példa, hogy látszódjon a scroll.' },
-    { brand: 'Ford', model: 'Focus', year: 2018, description: 'Még egy hosszú szöveg példa, hogy látszódjon a scroll.' },
-    { brand: 'Ford', model: 'Focus', year: 2018, description: 'Még egy hosszú szöveg példa, hogy látszódjon a scroll.' },
-    { brand: 'Ford', model: 'Focus', year: 2018, description: 'Még egy hosszú szöveg példa, hogy látszódjon a scroll.' },
-    { brand: 'Ford', model: 'Focus', year: 2018, description: 'Még egy hosszú szöveg példa, hogy látszódjon a scroll.' },
-    { brand: 'Ford', model: 'Focus', year: 2018, description: 'Még egy hosszú szöveg példa, hogy látszódjon a scroll.' },
-    { brand: 'Ford', model: 'Focus', year: 2018, description: 'Még egy hosszú szöveg példa, hogy látszódjon a scroll.' },
-    { brand: 'Ford', model: 'Focus', year: 2018, description: 'Még egy hosszú szöveg példa, hogy látszódjon a scroll.' },
-    { brand: 'Ford', model: 'Focus', year: 2018, description: 'Még egy hosszú szöveg példa, hogy látszódjon a scroll.' },
-    { brand: 'Ford', model: 'Focus', year: 2018, description: 'Még egy hosszú szöveg példa, hogy látszódjon a scroll.' },
-  ];
+  loadCars(){
+    this.carService.load().subscribe({
+      next: (res) => {
+        this.cars = res; // => ENUM PROBLEMAJAT MEG KELL OLDANI
+        this.changedetector.detectChanges();
+      },
+      error: (err) => {
+        console.error('the cars cant load', err.message)
+      }
+    });
+  }
 
   navigateForm(){
     this.router.navigate(['guest-form']);
   }
 }
 
-export interface Car {
-  brand: string;
-  model: string;
-  year: number;
-  description: string;
-}

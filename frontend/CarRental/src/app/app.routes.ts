@@ -49,7 +49,7 @@ export const routes: Routes = [
                 component: GeneralCarList
             },
             {
-                path: 'general-rent-car',
+                path: 'general-rent-car/:id',
                 component: GeneralRentCar
             },
             {

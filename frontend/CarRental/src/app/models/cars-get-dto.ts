@@ -6,11 +6,5 @@ export interface CarsGetDto {
     year: number;
     kilometrage: number;
     rentPrice: number;
-    CarStatus: CarStatus;
-}
-
-export enum CarStatus {
-  Available,
-  Unavailable,
-  Service 
+    carStatus: string;
 }
