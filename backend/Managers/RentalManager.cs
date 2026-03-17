@@ -34,11 +34,15 @@ public class RentalManager
     
     public async Task<bool> AddRental(RentalPostDTO RPD, int userId)
     {
+        DateTime startDate = DateTime.Parse(RPD.StartDate);
+        DateTime endDate = DateTime.Parse(RPD.EndDate);
 
         bool inMaintenace = await context.CarMaintenances.AnyAsync(m =>
             m.CarId == RPD.CarId &&
-            DateTime.Parse(RPD.StartDate) <= m.EndDate &&
-            DateTime.Parse(RPD.EndDate) >= m.StartDate
+            startDate <= m.EndDate &&
+            endDate >= m.StartDate &&
+            startDate < endDate &&
+            startDate >= DateTime.Now
         );
 
         if (inMaintenace)
@@ -50,8 +54,8 @@ public class RentalManager
         {
             CarId = RPD.CarId,
             UserId = userId,
-            StartDate = DateTime.Parse(RPD.StartDate),
-            EndDate = DateTime.Parse(RPD.EndDate),
+            StartDate = startDate,
+            EndDate = endDate,
             RentStatus = RentStatus.Requested
         });
 
