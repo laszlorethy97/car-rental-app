@@ -17,7 +17,7 @@ public class RentalController: ControllerBase
     }
 
     [HttpGet("rentals", Name = "GetRentals")]
-    async public Task<List<Rental>> GetRentals()
+    async public Task<List<RentalGetDTO>> GetRentals()
     {
         return await manager.GetRentals();
     }
@@ -29,9 +29,18 @@ public class RentalController: ControllerBase
     }
 
     [HttpPost("rental", Name = "AddRental")]
-    async public Task AddRental(Rental rental)
+    [Authorize]
+    async public Task<IActionResult> AddRental(RentalPostDTO RPD)
     {
-        await manager.AddRental(rental);
+        int userId = int.Parse(User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value);
+        bool success = await manager.AddRental(RPD, userId);
+
+        if (!success)
+        {
+            return BadRequest(new {message = "Car is under maintenace period"});
+        }
+
+        return Ok(new {message = "Rental request accepted"});
     }
 
     [HttpPut("rental/{id}", Name = "UpdateRental")]

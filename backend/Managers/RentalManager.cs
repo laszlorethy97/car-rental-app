@@ -10,9 +10,21 @@ public class RentalManager
         this.context = context;
     }
 
-    public async Task<List<Rental>> GetRentals()
+    public async Task<List<RentalGetDTO>> GetRentals()
     {
-        return await context.Rentals.ToListAsync();
+        return await context.Rentals.Include(c => c.Car).Include(u => u.User).Select(r => new RentalGetDTO
+        {
+            Id = r.Id,
+            CarId = r.CarId,
+            UserId = r.UserId,
+            Brand = r.Car.Brand,
+            Model = r.Car.Model,
+            LicensePlate = r.Car.LicensePlate,
+            UserName = r.User.UserName,
+            StartDate = r.StartDate,
+            EndDate = r.EndDate,
+            RentStatus = r.RentStatus
+        }).ToListAsync();
     }
 
     public async Task<Rental?> GetRentalById(int id)
@@ -20,10 +32,35 @@ public class RentalManager
         return await context.Rentals.FirstOrDefaultAsync(r => r.Id == id);
     }
     
-    public async Task AddRental(Rental rental)
+    public async Task<bool> AddRental(RentalPostDTO RPD, int userId)
     {
-        await context.Rentals.AddAsync(rental);
+        DateTime startDate = DateTime.Parse(RPD.StartDate);
+        DateTime endDate = DateTime.Parse(RPD.EndDate);
+
+        bool inMaintenace = await context.CarMaintenances.AnyAsync(m =>
+            m.CarId == RPD.CarId &&
+            startDate <= m.EndDate &&
+            endDate >= m.StartDate &&
+            startDate < endDate &&
+            startDate >= DateTime.Now
+        );
+
+        if (inMaintenace)
+        {
+            return false;
+        }
+
+        await context.Rentals.AddAsync(new Rental
+        {
+            CarId = RPD.CarId,
+            UserId = userId,
+            StartDate = startDate,
+            EndDate = endDate,
+            RentStatus = RentStatus.Requested
+        });
+
         await context.SaveChangesAsync();
+        return true;
     }
     public async Task UpdateRentalByid(int id, Rental rental)
     {
