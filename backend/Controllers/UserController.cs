@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption.ConfigurationModel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Authorization;
 
 
 namespace CarRentalSystem;
@@ -14,24 +15,28 @@ public class UserController: ControllerBase
     {
         this.manager = manager;
     }
-
-
-    [HttpGet("users", Name = "GetUsers")]
+    
+    [HttpGet("user", Name = "GetUsers")]
     async public Task<List<User>> GetUsers()
     {
         return await manager.GetUsers();
     }
 
-    [HttpGet("user/{id}", Name = "GetUser")]
-    async public Task<User?> GetUserById(int id)
+    [HttpGet("name")]
+    [Authorize]
+    public async Task<IActionResult> GetUserByToken()
     {
-        return await manager.GetUserById(id);
+        var userIdClaim = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+        if (userIdClaim == null) return Unauthorized("Invalid token: no user ID");
+        int userId = int.Parse(userIdClaim);
+        EditProfileGetDTO dto = await manager.GetUserById(userId);
+        return Ok(dto);
     }
 
     [HttpPost("registration", Name = "AddUser")]
     async public Task<IActionResult> AddUser(RegistrationUserPostDTO registrationUserPostDTO)
     {
-        bool succes = await manager.AddUser(registrationUserPostDTO);
+        bool succes = await manager.Registration(registrationUserPostDTO);
         if (!succes)
         {
             return BadRequest(new { message = "The username or email is already taken." });
@@ -42,12 +47,12 @@ public class UserController: ControllerBase
     [HttpPost("login", Name = "LoginUser")]
     public async Task<IActionResult> Login(LoginUserPostDTO loginUserPostDTO)
     {
-        bool succes = await this.manager.LoginUser(loginUserPostDTO);
-        if (!succes)
+        string? token = await this.manager.LoginUser(loginUserPostDTO);
+        if (token == null)
         {
             return BadRequest(new { message = "Invalid username or password." });
         }
-        return Ok(new { message = "Login successful" });
+        return Ok(new { message = token });
     }
 
     [HttpPut("user/{id}", Name = "Updateuser")]

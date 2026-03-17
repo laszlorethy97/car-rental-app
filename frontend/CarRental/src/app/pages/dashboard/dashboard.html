@@ -3,10 +3,9 @@
         <div>
             <p>General User Tools</p>
             <div class="button-container">
-                <button class="button">Rent</button>
-                <button class="button">Edit Profile</button>
-                <button class="button">Car Rental</button>
-                <button class="button">Rental History</button>
+                <button (click)="navigateToEditProfile()" class="button">Edit Profile</button>
+                <button (click)="navigateToCars()" class="button">Car Rental</button>
+                <button (click)="navigateToRentalHistory()" class="button">Rental History</button>
             </div>            
         </div>
         <div>

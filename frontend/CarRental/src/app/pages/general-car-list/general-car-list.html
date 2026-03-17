@@ -1,7 +1,7 @@
 <div class="wrapper">
-    <H3>Car Rental</H3>
+    <H3>Cars</H3>
     <div class="container">
-        <ol class="cars-list">
+        <ol class="car-list">
             <li *ngFor="let car of cars" class="car">
                 <div>Car id number: {{car.id}}</div>
                 <div>licenseplate: {{car.model}}</div>
@@ -11,8 +11,9 @@
                 <div>kilometrage: {{car.kilometrage}}</div>
                 <div>rentPrice: {{car.rentPrice}}</div>
                 <div>carstatus: {{car.carStatus}}</div>
-                <button (click)="navigateForm()" class="button">rent car</button>
+                <button (click)="navigateRent(car.id)" class="button">rent</button>
             </li>
         </ol>
+        <button (click)="navigateBack()" class="back-button">back</button>
     </div>
 </div>

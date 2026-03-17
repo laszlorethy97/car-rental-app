@@ -1,0 +1,69 @@
+<div class="wrapper">
+  <h3>Edit Profile</h3>
+  <form class="form-container" (ngSubmit)="getForm(userForm)" #userForm="ngForm">
+    <div>
+      <label for="userName">Username</label>
+      <input class="input" type="text" name="userName" id="userName" [(ngModel)]="user.userName" required #userName="ngModel">
+      <div *ngIf="userName.invalid && userName.touched" style="color:red">
+        Username is required!
+      </div>
+    </div>
+    <div>
+      <label for="passWord">Password</label>
+      <input class="input" type="text" name="password" id="passWord" [(ngModel)]="user.password" required minlength="4" #passWord="ngModel">
+      <div *ngIf="passWord.invalid && passWord.touched" style="color:red">
+        Password must be at least 4 characters
+      </div>
+    </div>
+    <div>
+      <label for="email">Email</label>
+      <input class="input" type="email" name="email" id="email" [(ngModel)]="user.email"
+             required
+             pattern="^[A-Za-z0-9]+@[A-Za-z0-9]+\.[A-Za-z0-9]{1,4}$"
+             #email="ngModel">
+      <div *ngIf="email.invalid && email.touched" style="color:red">
+        Please enter a valid email (e.g., abc123@domain.com)
+      </div>
+    </div>
+    <div>
+      <label for="firstname">Firstname</label>
+      <input class="input" type="text" name="firstName" id="firstname" [(ngModel)]="user.firstName"
+             required
+             pattern="[A-Za-z]+"
+             #firstname="ngModel">
+      <div *ngIf="firstname.invalid && firstname.touched" style="color:red">
+       Only letters without accents are allowed
+      </div>
+    </div>
+    <div>
+      <label for="lastname">Lastname</label>
+      <input class="input" type="text" name="lastName" id="lastname" [(ngModel)]="user.lastName"
+             required
+             pattern="[A-Za-z]+"
+             #lastname="ngModel">
+      <div *ngIf="lastname.invalid && lastname.touched" style="color:red">
+        Only letters without accents are allowed
+      </div>
+    </div>
+    <div>
+      <label for="address">Address</label>
+      <input class="input" type="text" name="address" id="address" [(ngModel)]="user.address" required #address="ngModel">
+      <div *ngIf="address.invalid && address.touched" style="color:red">
+        Address is required!
+      </div>
+    </div>
+    <div class="indent">
+      <label for="phone">Telephone Number</label>
+      <input class="input" type="tel" name="phoneNumber" id="phone" [(ngModel)]="user.phoneNumber"
+             required
+             pattern="[0-9]{9,11}"
+             #phone="ngModel">
+      <div *ngIf="phone.invalid && phone.touched" style="color:red">
+        Please enter 9-11 digits! (0630367114)
+      </div>
+    </div>
+    <div>
+      <button class="button" type="submit" [disabled]="userForm.invalid">Edit</button>
+    </div>
+  </form>
+</div>

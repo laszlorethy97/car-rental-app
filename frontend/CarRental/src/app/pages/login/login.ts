@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
 import { NgForm, FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { UserService } from '../../services/user.service';
+import { AuthService } from '../../services/auth.service';
+import { LoginUserDto } from '../../models/login-user-dto';
+
 
 @Component({
   selector: 'app-login',
@@ -13,13 +15,14 @@ export class Login {
 
   constructor(
     private readonly router: Router,
-    private readonly userService: UserService
+    private readonly authService: AuthService
   ){}
 
-  getForm(user: NgForm){
-    console.log(user.value);
-    this.userService.login(user.value).subscribe({
+  getForm(userForm: NgForm){
+    const user = userForm.value as unknown as LoginUserDto
+    this.authService.login(user).subscribe({
       next: (res) => {
+        this.authService.setToken(res.message);
         this.router.navigate(['deshboard']);
       },
       error: (err) => {
