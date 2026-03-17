@@ -68,4 +68,26 @@ public class RentalManager
         context.Rentals.Update(rental);
         await context.SaveChangesAsync();
     }
+
+    public async Task<List<RentalHistoryGetDto>> GetRentalHistory(int userId)
+    {
+        var rentals = await
+         context.Rentals.Include(r => r.Car)
+         .Include(r=> r.User)
+         .Where(r => r.UserId == userId)
+         .ToListAsync();
+
+        return rentals.Select(r => new RentalHistoryGetDto
+        {
+            CarId = r.CarId,
+            LicensePlate = r.Car.LicensePlate,
+            Brand = r.Car.Brand,
+            Model = r.Car.Model,
+            StartDate = r.StartDate!.Value,
+            EndDate = r.EndDate!.Value,
+            RentStatus = r.RentStatus!.Value,
+            RentPrice = r.Car.RentPrice!.Value
+        }).ToList();
+    
+    }
 }

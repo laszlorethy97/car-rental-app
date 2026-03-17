@@ -15,7 +15,7 @@ public class UserController: ControllerBase
     {
         this.manager = manager;
     }
-
+    
     [HttpGet("user", Name = "GetUsers")]
     async public Task<List<User>> GetUsers()
     {

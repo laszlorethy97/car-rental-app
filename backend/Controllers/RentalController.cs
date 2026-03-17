@@ -7,7 +7,7 @@ using Microsoft.IdentityModel.Tokens;
 namespace CarRentalSystem;
 
 [ApiController]
-[Route("api/CarRental")]
+[Route("api/CarRental/rental")]
 public class RentalController: ControllerBase
 {
     RentalManager manager;
@@ -47,5 +47,16 @@ public class RentalController: ControllerBase
     public async Task UpdateRentalByid(int id, [FromBody] Rental rental)
     {
         await manager.UpdateRentalByid(id, rental);
+    }
+
+
+    [HttpGet("history", Name = "GetRentalHistory")]
+    [Authorize]
+    public async Task <ActionResult<List<RentalHistoryGetDto>>> GetRentalHistory()
+    {
+         var userIdClaim = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier);
+        if (userIdClaim == null) return Unauthorized("Invalid token: no user ID");
+        int userId = int.Parse(userIdClaim.Value);
+        return Ok(await manager.GetRentalHistory(userId));
     }
 }
