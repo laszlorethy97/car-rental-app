@@ -1,6 +1,6 @@
 namespace CarRentalSystem;
 
-public class RentalHistoryGetDto
+public class RentalHistoryGetDTO
 {
     public int CarId { get; set; }
     public string LicensePlate {get; set;}
