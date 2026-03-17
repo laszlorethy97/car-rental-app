@@ -43,7 +43,7 @@ public class RentalController: ControllerBase
 
     [HttpGet("history", Name = "GetRentalHistory")]
     [Authorize]
-    public async Task <ActionResult<List<RentalHistoryGetDto>>> GetRentalHistory()
+    public async Task <ActionResult<List<RentalHistoryGetDTO>>> GetRentalHistory()
     {
          var userIdClaim = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier);
         if (userIdClaim == null) return Unauthorized("Invalid token: no user ID");
