@@ -37,10 +37,10 @@ public class RentalController: ControllerBase
 
         if (!success)
         {
-            return BadRequest("Car is under maintenace period");
+            return BadRequest(new {message = "Car is under maintenace period"});
         }
 
-        return Ok("Rental request accepted");
+        return Ok(new {message = "Rental request accepted"});
     }
 
     [HttpPut("rental/{id}", Name = "UpdateRental")]
