@@ -16,11 +16,6 @@ public class RentalController: ControllerBase
         this.manager = manager;
     }
 
-    [HttpGet("rentals", Name = "GetRentals")]
-    async public Task<List<RentalGetDTO>> GetRentals()
-    {
-        return await manager.GetRentals();
-    }
 
     [HttpGet("rental/{id}", Name = "GetRental")]
     async public Task<Rental?> GetRentalById(int id)
@@ -42,6 +37,7 @@ public class RentalController: ControllerBase
 
         return Ok(new {message = "Rental request accepted"});
     }
+    
 
     [HttpPut("rental/{id}", Name = "UpdateRental")]
     public async Task UpdateRentalByid(int id, [FromBody] Rental rental)

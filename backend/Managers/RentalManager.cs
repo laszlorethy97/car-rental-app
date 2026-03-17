@@ -10,23 +10,6 @@ public class RentalManager
         this.context = context;
     }
 
-    public async Task<List<RentalGetDTO>> GetRentals()
-    {
-        return await context.Rentals.Include(c => c.Car).Include(u => u.User).Select(r => new RentalGetDTO
-        {
-            Id = r.Id,
-            CarId = r.CarId,
-            UserId = r.UserId,
-            Brand = r.Car.Brand,
-            Model = r.Car.Model,
-            LicensePlate = r.Car.LicensePlate,
-            UserName = r.User.UserName,
-            StartDate = r.StartDate,
-            EndDate = r.EndDate,
-            RentStatus = r.RentStatus
-        }).ToListAsync();
-    }
-
     public async Task<Rental?> GetRentalById(int id)
     {
         return await context.Rentals.FirstOrDefaultAsync(r => r.Id == id);
@@ -85,7 +68,7 @@ public class RentalManager
             Model = r.Car.Model,
             StartDate = r.StartDate!.Value,
             EndDate = r.EndDate!.Value,
-            RentStatus = r.RentStatus!.Value,
+            RentStatus = r.RentStatus!.ToString(),
             RentPrice = r.Car.RentPrice!.Value
         }).ToList();
     

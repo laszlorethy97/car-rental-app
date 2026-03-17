@@ -8,6 +8,6 @@ public class RentalHistoryGetDTO
     public string Model {get; set;}
     public DateTime StartDate { get; set; }
     public DateTime EndDate { get; set; }
-    public RentStatus RentStatus { get; set; }
+    public string RentStatus { get; set; }
     public int RentPrice {get; set;}
 }
