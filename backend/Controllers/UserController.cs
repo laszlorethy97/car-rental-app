@@ -56,10 +56,10 @@ public class UserController: ControllerBase
         return Ok(new { message = token });
     }
 
-    //[HttpPut("{id}", Name = "Updateuser")]
+    
     [HttpPut="EditProfile"]
     [Authorize]
-    public async Task<IActionResult> UpdateUser(/*int id,*/ [FromBody] UserEditProfilePutDto dto)
+    public async Task<IActionResult> UpdateUser([FromBody] UserEditProfilePutDto dto)
     {
         var userIdClaim = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
         if (userIdClaim == null) return Unauthorized("Invalid token: no user ID");
