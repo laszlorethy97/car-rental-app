@@ -1,4 +1,6 @@
 ﻿using System;
+namespace CarRentalSystem;
+
 
 public class UserEditProfilePutDto
 {

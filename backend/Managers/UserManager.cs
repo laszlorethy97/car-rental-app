@@ -5,6 +5,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Microsoft.AspNetCore.Routing;
 
 
 namespace CarRentalSystem;
@@ -131,22 +132,38 @@ public class UserManager
     public async Task<bool> UpdateExistingUser(int id, UserEditProfilePutDto dto)
     {
         User user = await context.Users.FindAsync(id);
-        //var FindUserByEmailAndName = await context.Users
-        //    .FirstOrDefaultAsync(u =>
-        //        u.Email == dto.Email &&
-        //        u.UserName == dto.UserName);
 
         if (user == null)
         {
             return false;
         }
-            user.Email = dto.Email;
-            user.UserName = dto.UserName;
-            user.Password = dto.Password;
-            user.FirstName = dto.FirstName;
-            user.LastName = dto.LastName;
-            user.PhoneNumber = dto.PhoneNumber;
-            user.Address = dto.Address;
+
+        // email check (más user ne használhassa)
+        var emailExists = await context.Users
+            .AnyAsync(u => u.Email == dto.Email && u.Id != id);
+
+        if (emailExists)
+        {
+            return false;
+        }
+
+        // username check
+        var usernameExists = await context.Users
+            .AnyAsync(u => u.UserName == dto.UserName && u.Id != id);
+
+        if (usernameExists)
+        {
+            return false;
+        }
+
+        // update
+        user.Email = dto.Email;
+        user.UserName = dto.UserName;
+        user.Password = dto.Password;
+        user.FirstName = dto.FirstName;
+        user.LastName = dto.LastName;
+        user.PhoneNumber = dto.PhoneNumber;
+        user.Address = dto.Address;
 
         await context.SaveChangesAsync();
         return true;

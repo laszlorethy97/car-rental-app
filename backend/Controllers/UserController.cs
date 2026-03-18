@@ -65,7 +65,7 @@ public class UserController: ControllerBase
         if (userIdClaim == null) return Unauthorized("Invalid token: no user ID");
         int userId = int.Parse(userIdClaim);
 
-        bool success = await manager.UpdateGuestUser(userId, dto);
+        bool success = await manager.UpdateExistingUser(userId, dto);
         if (!success)
         {
             return BadRequest(new { message = "Update failed!" });
