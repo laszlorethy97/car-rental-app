@@ -22,7 +22,7 @@ export class Register {
     const user = form.value as unknown as RegistrationUserDto
     this.userService.registration(user).subscribe({
       next: (res) => {
-        this.router.navigate(['deshboard']);
+        this.router.navigate(['login']);
       },
       error: (err) => {
         const msg = err?.error?.message || 'Registration failed';
