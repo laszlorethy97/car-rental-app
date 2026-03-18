@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -8,7 +9,10 @@ import { Router } from '@angular/router';
   styleUrl: './dashboard.scss',
 })
 export class Dashboard {
-  constructor(private readonly router: Router){}
+  constructor(
+    private readonly router: Router,
+    private readonly authService: AuthService
+  ){}
 
   navigateToRentalHistory(){
     this.router.navigate(['general-rental-history']);
@@ -20,5 +24,10 @@ export class Dashboard {
   
   navigateToEditProfile(){
     this.router.navigate(['general-edit-profile']);
+  }
+
+  logOut(){
+    this.authService.logout();
+    this.router.navigate(['']);
   }
 }

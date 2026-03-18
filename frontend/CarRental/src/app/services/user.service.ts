@@ -20,6 +20,6 @@ export class UserService {
   }
 
   edit(user: EditProfileGetDto): Observable<{ message: string }>{
-    return this.httpclient.put<{ message: string}>('http://localhost:5000/api/CarRental/user/editProfilee',user);
+    return this.httpclient.put<{ message: string}>('http://localhost:5000/api/CarRental/user/editProfile',user);
   }
 }
