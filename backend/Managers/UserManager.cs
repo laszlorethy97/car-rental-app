@@ -128,7 +128,7 @@ public class UserManager
         return token;
     }
 
-    public async Task<bool> UpdateGuestUser(int id, UserEditProfilePutDto dto)
+    public async Task<bool> UpdateExistingUser(int id, UserEditProfilePutDto dto)
     {
         User user = await context.Users.FindAsync(id);
         //var FindUserByEmailAndName = await context.Users
@@ -140,19 +140,12 @@ public class UserManager
         {
             return false;
         }
-        if (dto.Email != user.Email)
             user.Email = dto.Email;
-        if(dto.UserName != user.UserName)
             user.UserName = dto.UserName;
-        if (dto.Password != null)
             user.Password = dto.Password;
-        if (dto.FirstName != null)
             user.FirstName = dto.FirstName;
-        if (dto.LastName != null)
             user.LastName = dto.LastName;
-        if (dto.PhoneNumber != null)
             user.PhoneNumber = dto.PhoneNumber;
-        if (dto.Address != null)
             user.Address = dto.Address;
 
         await context.SaveChangesAsync();

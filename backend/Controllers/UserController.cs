@@ -56,15 +56,21 @@ public class UserController: ControllerBase
         return Ok(new { message = token });
     }
 
-    [HttpPut("user/{id}", Name = "Updateuser")]
-    public async Task<IActionResult> UpdateUser(int id, [FromBody] UserEditProfilePutDto dto)
+    //[HttpPut("user/{id}", Name = "Updateuser")]
+    [Authorize]
+    [HttpPut]
+    public async Task<IActionResult> UpdateUser(/*int id,*/ [FromBody] UserEditProfilePutDto dto)
     {
-        bool success = await manager.UpdateGuestUser(id, dto);
+        var userIdClaim = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+        if (userIdClaim == null) return Unauthorized("Invalid token: no user ID");
+        int userId = int.Parse(userIdClaim);
+
+        bool success = await manager.UpdateGuestUser(userId, dto);
         if (!success)
         {
-            return BadRequest(new { message = "Invalid username or password." });
+            return BadRequest(new { message = "Update failed!" });
         }
-        return Ok(new { message = "Login successful" });
+        return Ok(new { message = "Update successful!" });
     }
 
 }
