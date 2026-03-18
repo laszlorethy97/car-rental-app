@@ -18,4 +18,8 @@ export class UserService {
   load(): Observable<EditProfileGetDto>{
     return this.httpclient.get<EditProfileGetDto>('http://localhost:5000/api/CarRental/user/name/');
   }
+
+  edit(user: EditProfileGetDto): Observable<{ message: string }>{
+    return this.httpclient.put<{ message: string}>('http://localhost:5000/api/CarRental/user/editProfilee',user);
+  }
 }

@@ -57,7 +57,7 @@ public class UserController: ControllerBase
     }
 
     
-    [HttpPut="EditProfile"]
+    [HttpPut("editProfilee")]
     [Authorize]
     public async Task<IActionResult> UpdateUser([FromBody] UserEditProfilePutDto dto)
     {

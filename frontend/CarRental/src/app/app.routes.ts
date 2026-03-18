@@ -10,6 +10,7 @@ import { GeneralRentalHistory } from './pages/general-rental-history/general-ren
 import { GeneralCarList } from './pages/general-car-list/general-car-list';
 import { GeneralRentCar } from './pages/general-rent-car/general-rent-car';
 import { GeneralEditProfile } from './pages/general-edit-profile/general-edit-profile';
+import { authGuard } from './auth-guard';
 
 export const routes: Routes = [
     {
@@ -34,7 +35,8 @@ export const routes: Routes = [
             },
             {
                 path: 'deshboard',
-                component: Dashboard
+                component: Dashboard,
+                canActivate: [authGuard]
             },
             {
                 path: 'guest-form',
@@ -42,19 +44,23 @@ export const routes: Routes = [
             },
             {
                 path: 'general-rental-history',
-                component: GeneralRentalHistory
+                component: GeneralRentalHistory,
+                canActivate: [authGuard]
             },
             {
                 path: 'general-car-list',
-                component: GeneralCarList
+                component: GeneralCarList,
+                canActivate: [authGuard]
             },
             {
                 path: 'general-rent-car/:id',
-                component: GeneralRentCar
+                component: GeneralRentCar,
+                canActivate: [authGuard]
             },
             {
                 path: 'general-edit-profile',
-                component: GeneralEditProfile
+                component: GeneralEditProfile,
+                canActivate: [authGuard]
             }
         ]
     }

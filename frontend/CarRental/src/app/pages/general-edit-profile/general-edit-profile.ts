@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { UserService } from '../../services/user.service';
 import { EditProfileGetDto } from '../../models/edit-profile-get-dto';
 import { ChangeDetectorRef } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-general-edit-profile',
@@ -25,7 +26,8 @@ export class GeneralEditProfile {
 
   constructor(
     private readonly userservice: UserService,
-    private readonly changeDetector: ChangeDetectorRef
+    private readonly changeDetector: ChangeDetectorRef,
+    private readonly router: Router
   ){}
 
   ngOnInit(){
@@ -46,6 +48,14 @@ export class GeneralEditProfile {
 
 
   getForm(userForm: NgForm){
-
+    const user = userForm.value as unknown as EditProfileGetDto
+    this.userservice.edit(user).subscribe({
+      next: (res) => {
+        this.router.navigate(['deshboard']);
+      },
+      error: (err) => {
+        console.error(err.message);
+      }
+    });
   }
 }
