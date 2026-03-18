@@ -56,9 +56,9 @@ public class UserController: ControllerBase
         return Ok(new { message = token });
     }
 
-    //[HttpPut("user/{id}", Name = "Updateuser")]
+    //[HttpPut("{id}", Name = "Updateuser")]
+    [HttpPut="EditProfile"]
     [Authorize]
-    [HttpPut]
     public async Task<IActionResult> UpdateUser(/*int id,*/ [FromBody] UserEditProfilePutDto dto)
     {
         var userIdClaim = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;

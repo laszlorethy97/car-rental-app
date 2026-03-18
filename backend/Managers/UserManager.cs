@@ -138,16 +138,14 @@ public class UserManager
             return false;
         }
 
-        // email check (más user ne használhassa)
         var emailExists = await context.Users
             .AnyAsync(u => u.Email == dto.Email && u.Id != id);
-
+        
         if (emailExists)
         {
             return false;
         }
 
-        // username check
         var usernameExists = await context.Users
             .AnyAsync(u => u.UserName == dto.UserName && u.Id != id);
 
@@ -156,7 +154,6 @@ public class UserManager
             return false;
         }
 
-        // update
         user.Email = dto.Email;
         user.UserName = dto.UserName;
         user.Password = dto.Password;
