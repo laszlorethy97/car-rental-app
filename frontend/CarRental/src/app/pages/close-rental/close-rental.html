@@ -1,0 +1,38 @@
+
+<div class="wrapper">
+  <h3>Close Rental</h3>
+
+  <form class="form-container"
+        (ngSubmit)="getForm(invoiceForm)"
+        #invoiceForm="ngForm">
+      <div>Could you kindly confirm if you wish to close this matter?</div>
+
+    <div>
+      <label for="answer">Please write ‘yes’ or ‘no’ in the text field.</label>
+      <input class="input"
+             type="text"
+             name="answer"
+             id="answer"
+             #answer="ngModel"
+             ngModel
+             pattern="^(yes|no)$"
+             required>
+    </div>
+    <div *ngIf="answer.invalid && answer.touched" style="color:red;">
+      Only "yes" or "no" is allowed.
+    </div>
+
+    <div>
+      <button class="button"
+              type="submit"
+              [disabled]="invoiceForm.invalid">
+        Edit
+      </button>
+    </div>
+    <div>
+      <button class="button" (click)="navigateBack()">Back</button>
+    </div>
+
+  </form>
+</div>
+

@@ -25,6 +25,9 @@ export class Dashboard {
   navigateToEditProfile(){
     this.router.navigate(['general-edit-profile']);
   }
+  navigateToAgentRentalHistory(){
+    this.router.navigate(['agent-rental-history']);
+  }
 
   logOut(){
     this.authService.logout();

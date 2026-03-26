@@ -11,7 +11,7 @@ export class RentalService {
   constructor(private readonly httpClient: HttpClient){}
 
   rent(rental: CarRentPostDto): Observable<{message: string}>{
-    return this.httpClient.post<{message: string}>('http://localhost:5000/api/CarRental/rental', rental);
+    return this.httpClient.post<{message: string}>('http://localhost:5000/api/CarRental/rental/rental', rental);
   }
 
   load(): Observable<RentalHistoryDto[]>{

@@ -10,6 +10,10 @@ import { GeneralRentalHistory } from './pages/general-rental-history/general-ren
 import { GeneralCarList } from './pages/general-car-list/general-car-list';
 import { GeneralRentCar } from './pages/general-rent-car/general-rent-car';
 import { GeneralEditProfile } from './pages/general-edit-profile/general-edit-profile';
+import { AgentRentalhistory } from './pages/agent-rentalhistory/agent-rentalhistory';
+import { RentalModify } from './pages/rental-modify/rental-modify';
+import { AddInvoice } from './pages/add-invoice/add-invoice';
+import { CloseRental } from './pages/close-rental/close-rental';
 import { authGuard } from './auth-guard';
 
 export const routes: Routes = [
@@ -61,7 +65,28 @@ export const routes: Routes = [
                 path: 'general-edit-profile',
                 component: GeneralEditProfile,
                 canActivate: [authGuard]
+            },
+            {
+                path: 'agent-rental-history',
+                component: AgentRentalhistory,
+                canActivate: [authGuard]
+            },
+            {
+                path: 'add-invoice/:id',
+                component: AddInvoice,
+                canActivate: [authGuard]
+            },
+            {
+                path: 'invoice-modify/:id',
+                component: RentalModify,
+                canActivate: [authGuard]
+            },
+            {
+                path: 'close-rental/:id',
+                component: CloseRental,
+                canActivate: [authGuard]
             }
+
         ]
     }
 ];

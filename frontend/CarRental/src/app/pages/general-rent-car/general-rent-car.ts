@@ -33,7 +33,6 @@ export class GeneralRentCar {
   }
 
   getForm(carForm: NgForm){
-    this.catchCarId();
     const carRentPostDto: CarRentPostDto = {carId: this.carId, startDate: carForm.value.startDate, endDate: carForm.value.endDate};
     this.rentalService.rent(carRentPostDto).subscribe({
       next: (res) => {
