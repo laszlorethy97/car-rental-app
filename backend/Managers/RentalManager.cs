@@ -20,18 +20,26 @@ public class RentalManager
         DateTime startDate = DateTime.Parse(RPD.StartDate);
         DateTime endDate = DateTime.Parse(RPD.EndDate);
 
-        bool inMaintenace = await context.CarMaintenances.AnyAsync(m =>
-            m.CarId == RPD.CarId &&
-            startDate <= m.EndDate &&
-            endDate >= m.StartDate &&
-            startDate < endDate &&
-            startDate >= DateTime.Now
+        if (startDate >= endDate)
+            return false;
+
+        if (startDate < DateTime.Now)
+            return false;
+
+        bool hasConflictRental = await context.Rentals.AnyAsync(r =>
+            r.CarId == RPD.CarId &&
+            startDate <= r.EndDate &&
+            endDate >= r.StartDate
         );
 
-        if (inMaintenace)
-        {
+        bool inMaintenance = await context.CarMaintenances.AnyAsync(m =>
+            m.CarId == RPD.CarId &&
+            startDate <= m.EndDate &&
+            endDate >= m.StartDate
+        );
+
+        if (hasConflictRental || inMaintenance)
             return false;
-        }
 
         await context.Rentals.AddAsync(new Rental
         {
