@@ -81,4 +81,25 @@ public class RentalManager
         }).ToList();
     
     }
+
+        public async Task<List<GetAllRentalsDTO>> GetAllRentals()
+    {
+        var rentals = await
+         context.Rentals.Include(r => r.Car)
+         .Include(r=> r.User)
+         .ToListAsync();
+
+        return rentals.Select(r => new GetAllRentalsDTO
+        {
+            RentalId = r.Id,
+            LicensePlate = r.Car.LicensePlate,
+            Brand = r.Car.Brand,
+            Model = r.Car.Model,
+            StartDate = r.StartDate!.Value,
+            EndDate = r.EndDate!.Value,
+            RentStatus = r.RentStatus!.ToString(),
+            RentPrice = r.Car.RentPrice!.Value
+        }).ToList();
+    
+    }
 }

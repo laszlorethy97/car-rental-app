@@ -55,4 +55,11 @@ public class RentalController: ControllerBase
         int userId = int.Parse(userIdClaim.Value);
         return Ok(await manager.GetRentalHistory(userId));
     }
+
+    [HttpGet("rentals", Name = "GetAllRentals")]
+    [Authorize]
+    public async Task <ActionResult<List<GetAllRentalsDTO>>> GetAllRentals()
+    {
+        return Ok(await manager.GetAllRentals());
+    }
 }
