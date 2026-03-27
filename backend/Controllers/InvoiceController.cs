@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption.ConfigurationModel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -27,9 +28,15 @@ public class InvoiceController: ControllerBase
     }
 
     [HttpPost("invoice", Name = "AddInvoice")]
-    async public Task AddInvoice(Invoice invoice)
+    async public Task<IActionResult> AddInvoice(RentIdToInvoiceDTO dto)
     {
-        await manager.AddInvoice(invoice);
+        bool success = await manager.AddInvoice(dto);
+
+        if (!success)
+        {
+            return BadRequest();
+        }
+        return Ok();
     }
 
     [HttpPut("invoice/{id}", Name = "UpdateInvoice")]

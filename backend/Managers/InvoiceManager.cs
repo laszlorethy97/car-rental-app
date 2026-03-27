@@ -20,10 +20,41 @@ public class InvoiceManager
         return await context.Invoices.FirstOrDefaultAsync(c => c.Id == id);
     }
 
-    public async Task AddInvoice(Invoice invoice)
+    public async Task<bool> AddInvoice(RentIdToInvoiceDTO dto)
     {
-        await context.Invoices.AddAsync(invoice);
+        var rentalData = await context.Rentals
+        .Where(r => r.Id == dto.RentId)
+        .Select(r => new 
+        { 
+            r.StartDate,
+            r.EndDate,
+            r.RentStatus,
+            Price = (int?)r.Car.RentPrice
+        })
+        .FirstOrDefaultAsync();
+
+
+        if (rentalData == null)
+        {
+            throw new Exception("Rental with this Id cannot be found");
+        }
+        if (rentalData.RentStatus != RentStatus.Active && rentalData.RentStatus != RentStatus.Closed)
+        {
+            throw new Exception($"This Rental is not yet accepted {rentalData.RentStatus}");
+        }
+        
+        int numberOfDays = (rentalData.EndDate - rentalData.StartDate).Value.Days;
+
+        await context.Invoices.AddAsync(new Invoice
+        {
+            RentId = dto.RentId,
+            Amount = numberOfDays * rentalData.Price ?? 0,
+            IssueDate = DateTime.Now,
+            PayDate = DateTime.Now
+        });
+
         await context.SaveChangesAsync();
+        return true;
     }
 
     public async Task UpdateInvoice(int id, Invoice invoice)
