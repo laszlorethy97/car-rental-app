@@ -28,8 +28,10 @@ public class InvoiceController: ControllerBase
     }
 
     [HttpPost("invoice", Name = "AddInvoice")]
+    [Authorize]
     async public Task<IActionResult> AddInvoice(RentIdToInvoiceDTO dto)
     {
+        int userId = int.Parse(User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value); 
         bool success = await manager.AddInvoice(dto);
 
         if (!success)
