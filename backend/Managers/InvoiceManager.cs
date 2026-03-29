@@ -36,11 +36,11 @@ public class InvoiceManager
 
         if (rentalData == null)
         {
-            throw new Exception("Rental with this Id cannot be found");
+            return false;
         }
         if (rentalData.RentStatus != RentStatus.Active && rentalData.RentStatus != RentStatus.Closed)
         {
-            throw new Exception($"This Rental is not yet accepted {rentalData.RentStatus}");
+            return false;
         }
         
         int numberOfDays = (rentalData.EndDate - rentalData.StartDate).Value.Days;
