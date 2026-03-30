@@ -1,3 +1,5 @@
+using Azure.Core.Pipeline;
+using CarRentalSystem.DTO.RentalDTO;
 using Microsoft.EntityFrameworkCore;
 
 namespace CarRentalSystem;
@@ -14,7 +16,7 @@ public class RentalManager
     {
         return await context.Rentals.FirstOrDefaultAsync(r => r.Id == id);
     }
-    
+
     public async Task<bool> AddRental(RentalPostDTO RPD, int userId)
     {
         DateTime startDate = DateTime.Parse(RPD.StartDate);
@@ -64,7 +66,7 @@ public class RentalManager
     {
         var rentals = await
          context.Rentals.Include(r => r.Car)
-         .Include(r=> r.User)
+         .Include(r => r.User)
          .Where(r => r.UserId == userId)
          .ToListAsync();
 
@@ -79,14 +81,14 @@ public class RentalManager
             RentStatus = r.RentStatus!.ToString(),
             RentPrice = r.Car.RentPrice!.Value
         }).ToList();
-    
+
     }
 
-        public async Task<List<GetAllRentalsDTO>> GetAllRentals()
+    public async Task<List<GetAllRentalsDTO>> GetAllRentals()
     {
         var rentals = await
          context.Rentals.Include(r => r.Car)
-         .Include(r=> r.User)
+         .Include(r => r.User)
          .ToListAsync();
 
         return rentals.Select(r => new GetAllRentalsDTO
@@ -100,6 +102,52 @@ public class RentalManager
             RentStatus = r.RentStatus!.ToString(),
             RentPrice = r.Car.RentPrice!.Value
         }).ToList();
-    
+
     }
+
+    public async Task<bool> PutRentalModify(RentalDecisionPutDto dto)
+    {
+        var rental = await context.Rentals.FindAsync(dto.RentalId);
+        if (rental == null)
+            return false;
+        if (rental.RentStatus != RentStatus.Requested)
+            return false;
+
+        if (dto.Answer.ToLower() == "yes")
+        {
+            rental.RentStatus = RentStatus.Approved;
+        }
+        else
+        {
+            rental.RentStatus = RentStatus.Rejected;
+        }
+
+        await context.SaveChangesAsync();
+        return true;
+    }
+
+
+    public async Task<bool> CloseRental(RentalDecisionPutDto dto)
+    {
+        var rental = await context.Rentals.FindAsync(dto.RentalId);
+        if (rental == null)
+            return false;
+        if (rental.RentStatus != RentStatus.Active)
+            return false;
+
+        if (dto.Answer.ToLower() == "yes")
+        {
+            rental.RentStatus = RentStatus.Closed;
+        }
+        else
+        {
+           return false;
+        }
+
+        await context.SaveChangesAsync();
+        return true;
+    }
+
+
+
 }

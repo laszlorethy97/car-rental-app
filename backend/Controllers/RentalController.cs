@@ -1,3 +1,4 @@
+using CarRentalSystem.DTO.RentalDTO;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption.ConfigurationModel;
 using Microsoft.AspNetCore.Mvc;
@@ -62,4 +63,33 @@ public class RentalController: ControllerBase
     {
         return Ok(await manager.GetAllRentals());
     }
+
+    [HttpPut("modify")]
+    [Authorize/*(Roles = "Agent")*/]
+    public async Task<IActionResult> PutRentalModify([FromBody] RentalDecisionPutDto dto)
+    { 
+        var succes = await manager.PutRentalModify(dto);
+
+        if (!succes)
+        {
+           return BadRequest("PutRentalModify failed!4!");
+        }
+        return Ok("PutRentalModify succesful :D");
+    }
+
+    [HttpPut("close")]
+    [Authorize/*(Roles = "Agent")*/]
+    public async Task<IActionResult> PutRentalClose([FromBody] RentalDecisionPutDto dto)
+    {
+        var success = await manager.CloseRental(dto);
+
+        if(!success)
+        {
+            return BadRequest("Close failed! :(");
+
+        }
+        return Ok("Closed :)");
+    }
+
+
 }
