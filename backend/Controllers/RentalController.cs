@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption.ConfigurationModel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
+using System.Security.Claims;
 
 
 namespace CarRentalSystem;
@@ -67,7 +68,11 @@ public class RentalController: ControllerBase
     [HttpPut("modify")]
     [Authorize]
     public async Task<IActionResult> PutRentalModify([FromBody] RentalDecisionPutDto dto)
-    { 
+    {
+        //var role = User.FindFirst(ClaimTypes.Role)?.Value;
+        //if (role != "Agent")
+        //    return Unauthorized();
+
         var result = await manager.PutRentalModify(dto);
 
         if (!result.success)
@@ -88,6 +93,10 @@ public class RentalController: ControllerBase
     [Authorize]
     public async Task<IActionResult> PutRentalClose([FromBody] RentalDecisionPutDto dto)
     {
+        //var role = User.FindFirst(ClaimTypes.Role)?.Value;
+        //if (role != "Agent")
+        //    return Unauthorized();
+
         var result = await manager.CloseRental(dto);
 
         if(!result.success)

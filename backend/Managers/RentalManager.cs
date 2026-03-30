@@ -111,7 +111,7 @@ public class RentalManager
         if (rental == null)
             return (false,$"Rental:{dto.RentalId} not found");
         if (rental.RentStatus != RentStatus.Requested)
-            return (false,$"Not in Requested state!");
+            return (false,$"Not in Requested state! Current state:[{rental.RentStatus.ToString()}]");
 
         if (dto.Answer.ToLower() == "yes")
         {
@@ -137,7 +137,7 @@ public class RentalManager
         if (rental == null)
             return (false,"Rental not found");
         if (rental.RentStatus != RentStatus.Active)
-            return (false,"Not in Active state");
+            return (false,$"Not in Active state! Current state:[{rental.RentStatus}]");
 
         if (dto.Answer.ToLower() == "yes")
         {
