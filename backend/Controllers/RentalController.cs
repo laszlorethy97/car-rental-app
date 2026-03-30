@@ -65,30 +65,45 @@ public class RentalController: ControllerBase
     }
 
     [HttpPut("modify")]
-    [Authorize/*(Roles = "Agent")*/]
+    [Authorize]
     public async Task<IActionResult> PutRentalModify([FromBody] RentalDecisionPutDto dto)
     { 
-        var succes = await manager.PutRentalModify(dto);
+        var result = await manager.PutRentalModify(dto);
 
-        if (!succes)
+        if (!result.success)
         {
-           return BadRequest("PutRentalModify failed!4!");
+            return BadRequest($"{result.reason}");
         }
-        return Ok("PutRentalModify succesful :D");
+        var rental = await manager.GetRentalById(dto.RentalId);
+        //return Ok($"Modify successful: {dto.Answer}, status: {rental.RentStatus}");
+        return Ok(new
+        {
+            message = "Modify successful",
+            answer = dto.Answer,
+            status = rental.RentStatus.ToString()
+        });
     }
 
     [HttpPut("close")]
-    [Authorize/*(Roles = "Agent")*/]
+    [Authorize]
     public async Task<IActionResult> PutRentalClose([FromBody] RentalDecisionPutDto dto)
     {
-        var success = await manager.CloseRental(dto);
+        var result = await manager.CloseRental(dto);
 
-        if(!success)
+        if(!result.success)
         {
-            return BadRequest("Close failed! :(");
+            return BadRequest($"{result.reason}");
 
         }
-        return Ok("Closed :)");
+        var rental = await manager.GetRentalById(dto.RentalId);
+        //return Ok($"Closed :) | {dto.Answer}, status: {rental.RentStatus}");
+        return Ok(new
+        { 
+            message = "Closed :)",
+            answer = dto.Answer,
+            status = rental.RentStatus.ToString()
+        });
+
     }
 
 

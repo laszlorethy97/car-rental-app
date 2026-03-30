@@ -105,47 +105,56 @@ public class RentalManager
 
     }
 
-    public async Task<bool> PutRentalModify(RentalDecisionPutDto dto)
+    public async Task<(bool success, string reason)> PutRentalModify(RentalDecisionPutDto dto)
     {
         var rental = await context.Rentals.FindAsync(dto.RentalId);
         if (rental == null)
-            return false;
+            return (false,$"Rental:{dto.RentalId} not found");
         if (rental.RentStatus != RentStatus.Requested)
-            return false;
+            return (false,$"Not in Requested state!");
 
         if (dto.Answer.ToLower() == "yes")
         {
             rental.RentStatus = RentStatus.Approved;
         }
-        else
+        else if (dto.Answer.ToLower() == "no")
         {
             rental.RentStatus = RentStatus.Rejected;
         }
+        else
+        {
+            return (false, "Only 'yes' or 'no' allowed");
+        }
 
         await context.SaveChangesAsync();
-        return true;
+        return (true,"Ok");
     }
 
 
-    public async Task<bool> CloseRental(RentalDecisionPutDto dto)
+    public async Task<(bool success,string reason)> CloseRental(RentalDecisionPutDto dto)
     {
         var rental = await context.Rentals.FindAsync(dto.RentalId);
         if (rental == null)
-            return false;
+            return (false,"Rental not found");
         if (rental.RentStatus != RentStatus.Active)
-            return false;
+            return (false,"Not in Active state");
 
         if (dto.Answer.ToLower() == "yes")
         {
             rental.RentStatus = RentStatus.Closed;
         }
+        else if(dto.Answer.ToLower() == "no")
+        {
+            return (false, $"Not closed ");
+
+        }
         else
         {
-           return false;
+            return (false, $"YOnly 'yes' or 'no' allowed");
         }
 
         await context.SaveChangesAsync();
-        return true;
+        return (true,"Ok");
     }
 
 
