@@ -146,7 +146,6 @@ public class RentalManager
         else if(dto.Answer.ToLower() == "no")
         {
             return (false, $"Not closed ");
-
         }
         else
         {

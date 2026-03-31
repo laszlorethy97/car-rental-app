@@ -66,7 +66,7 @@ public class RentalController: ControllerBase
     }
 
     [HttpPut("modify")]
-    //[Authorize]
+    [Authorize]
     public async Task<IActionResult> PutRentalModify([FromBody] RentalDecisionPutDto dto)
     {
         var result = await manager.PutRentalModify(dto);
@@ -78,18 +78,10 @@ public class RentalController: ControllerBase
         }
         var rental = await manager.GetRentalById(dto.RentalId);
         return Ok(new { message = $"Modify successful: {dto.Answer}, status: {rental.RentStatus}" });
-        //return Ok(new
-        //{
-        //    message = "Modify successful",
-        //    answer = dto.Answer,
-        //    status = rental.RentStatus.ToString()
-        //});
-
-        
     }
 
     [HttpPut("close")]
-    //[Authorize]
+    [Authorize]
     public async Task<IActionResult> PutRentalClose([FromBody] RentalDecisionPutDto dto)
     {
         var result = await manager.CloseRental(dto);
@@ -101,8 +93,6 @@ public class RentalController: ControllerBase
         }
         var rental = await manager.GetRentalById(dto.RentalId);
         return Ok(new { message = $"Closed :) | {dto.Answer}, status: {rental.RentStatus}" });
-       
-
     }
 
 
