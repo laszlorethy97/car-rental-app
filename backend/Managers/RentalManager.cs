@@ -150,9 +150,9 @@ public class RentalManager
         }
         else
         {
-            return (false, $"YOnly 'yes' or 'no' allowed");
+            return (false, $"Only 'yes' or 'no' allowed");
         }
-
+        
         await context.SaveChangesAsync();
         return (true,"Ok");
     }

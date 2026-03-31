@@ -66,52 +66,42 @@ public class RentalController: ControllerBase
     }
 
     [HttpPut("modify")]
-    [Authorize]
+    //[Authorize]
     public async Task<IActionResult> PutRentalModify([FromBody] RentalDecisionPutDto dto)
     {
-        //var role = User.FindFirst(ClaimTypes.Role)?.Value;
-        //if (role != "Agent")
-        //    return Unauthorized();
-
         var result = await manager.PutRentalModify(dto);
 
         if (!result.success)
         {
-            return BadRequest($"{result.reason}");
+            return BadRequest(new { message = result.reason });
+
         }
         var rental = await manager.GetRentalById(dto.RentalId);
-        //return Ok($"Modify successful: {dto.Answer}, status: {rental.RentStatus}");
-        return Ok(new
-        {
-            message = "Modify successful",
-            answer = dto.Answer,
-            status = rental.RentStatus.ToString()
-        });
+        return Ok(new { message = $"Modify successful: {dto.Answer}, status: {rental.RentStatus}" });
+        //return Ok(new
+        //{
+        //    message = "Modify successful",
+        //    answer = dto.Answer,
+        //    status = rental.RentStatus.ToString()
+        //});
+
+        
     }
 
     [HttpPut("close")]
-    [Authorize]
+    //[Authorize]
     public async Task<IActionResult> PutRentalClose([FromBody] RentalDecisionPutDto dto)
     {
-        //var role = User.FindFirst(ClaimTypes.Role)?.Value;
-        //if (role != "Agent")
-        //    return Unauthorized();
-
         var result = await manager.CloseRental(dto);
 
         if(!result.success)
         {
-            return BadRequest($"{result.reason}");
+            return BadRequest(new { message = result.reason });
 
         }
         var rental = await manager.GetRentalById(dto.RentalId);
-        //return Ok($"Closed :) | {dto.Answer}, status: {rental.RentStatus}");
-        return Ok(new
-        { 
-            message = "Closed :)",
-            answer = dto.Answer,
-            status = rental.RentStatus.ToString()
-        });
+        return Ok(new { message = $"Closed :) | {dto.Answer}, status: {rental.RentStatus}" });
+       
 
     }
 
