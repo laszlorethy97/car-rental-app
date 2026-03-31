@@ -22,6 +22,13 @@ public class InvoiceManager
 
     public async Task<bool> AddInvoice(RentIdToInvoiceDTO dto)
     {
+        var existingInvoice = await context.Invoices
+        .FirstOrDefaultAsync(i => i.RentId == dto.RentId);
+
+        if (existingInvoice != null)
+        {
+            return false;
+        }
         var rentalData = await context.Rentals
         .Where(r => r.Id == dto.RentId)
         .Select(r => new 
