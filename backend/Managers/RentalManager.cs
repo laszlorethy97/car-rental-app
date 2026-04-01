@@ -157,5 +157,18 @@ public class RentalManager
     }
 
 
+    public async Task<(bool success,string reason)> Active(RentIdToInvoiceDTO dto)
+    {
+        var rental = await context.Rentals.FindAsync(dto.RentId);
+         if (rental == null) return (false,"Rental not found");
+         if (rental.RentStatus != RentStatus.Approved)
+            return (false,$"Not in Active state! Current state:[{rental.RentStatus}]");
+        
+        rental.RentStatus = RentStatus.Active;
+        await context.SaveChangesAsync();
+        return (true, "OK");
+    }
+
+
 
 }

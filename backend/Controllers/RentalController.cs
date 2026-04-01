@@ -96,4 +96,16 @@ public class RentalController: ControllerBase
     }
 
 
+    [HttpPost("activate")]
+    [Authorize]
+    public async Task<IActionResult> Activate(RentIdToInvoiceDTO dto)
+    {
+        var result = await manager.Active(dto);
+        if (!result.success)
+        {
+            return BadRequest(new { message = result.reason });
+        }
+         return Ok(new { message = "activated successful"});
+    }
+
 }
