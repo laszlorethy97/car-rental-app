@@ -66,7 +66,7 @@ public class RentalController: ControllerBase
     }
 
     [HttpPut("modify")]
-    //[Authorize]
+    [Authorize]
     public async Task<IActionResult> PutRentalModify([FromBody] RentalDecisionPutDto dto)
     {
         var result = await manager.PutRentalModify(dto);
@@ -111,7 +111,7 @@ public class RentalController: ControllerBase
     }
 
     [HttpPut("admin-status-modify")]
-    //[Authorize]
+    [Authorize]
     public async Task<IActionResult> AdminStatusModifyer([FromBody] RentalDecisionPutDto dto)
     {
         var rental = await manager.GetRentalById(dto.RentalId);

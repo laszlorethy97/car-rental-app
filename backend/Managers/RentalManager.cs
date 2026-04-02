@@ -136,7 +136,7 @@ public class RentalManager
     {
         var rental = await context.Rentals.FindAsync(dto.RentalId);
         if (rental == null)
-            return (false,"Rental not found");
+            return (false, $"Rental:{dto.RentalId} not found");
         if (rental.RentStatus != RentStatus.Active)
             return (false,$"Not in Active state! Current state:[{rental.RentStatus}]");
 
@@ -173,13 +173,9 @@ public class RentalManager
     public async Task<(bool success,string reason)> AdminStatusModify(RentalDecisionPutDto dto)
     {
         var rental = await context.Rentals.FindAsync(dto.RentalId);
-        if (rental == null) return (false, "Rental not found!");
+        if (rental == null) return (false, $"Rental:{dto.RentalId} not found");
         var answer = dto.Answer.ToLower();
-        //    requested,
-        //approved,
-        //active,
-        //rejected,
-        //closed
+      
         if (answer == "requested")
             rental.RentStatus = RentStatus.Requested;
         else if (answer == "approved")
@@ -190,7 +186,7 @@ public class RentalManager
             rental.RentStatus = RentStatus.Rejected;
         else if (answer == "closed")
             rental.RentStatus = RentStatus.Closed;
-        else return (false, "Only the listed statuses are acccepted!");
+        else return (false, "Only the listed statuses are accepted!");
         
         await context.SaveChangesAsync();
         return (true, "Ok");
