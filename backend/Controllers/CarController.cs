@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption.ConfigurationModel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Authorization;
 
 
 namespace CarRentalSystem;
@@ -22,6 +23,7 @@ public class CarController: ControllerBase
     }
 
     [HttpGet("car/{id}", Name = "GetCar")]
+    [Authorize]
     async public Task<CarsGetDTO?> GetCarById(int id)
     {
         return await manager.GetCarById(id);

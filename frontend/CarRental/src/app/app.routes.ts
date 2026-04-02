@@ -14,6 +14,11 @@ import { AgentRentalhistory } from './pages/agent-rentalhistory/agent-rentalhist
 import { RentalModify } from './pages/rental-modify/rental-modify';
 import { AddInvoice } from './pages/add-invoice/add-invoice';
 import { CloseRental } from './pages/close-rental/close-rental';
+import { AdminRentalHistory } from './pages/admin-rental-history/admin-rental-history';
+import { AdminModifyRental } from './pages/admin-modify-rental/admin-modify-rental';
+import { AdminCarList } from './pages/admin-car-list/admin-car-list';
+import { AdminCarModify } from './pages/admin-car-modify/admin-car-modify';
+import { AdminServicing } from './pages/admin-servicing/admin-servicing';
 import { authGuard } from './auth-guard';
 
 export const routes: Routes = [
@@ -85,7 +90,32 @@ export const routes: Routes = [
                 path: 'close-rental/:id',
                 component: CloseRental,
                 canActivate: [authGuard]
-            }
+            },
+            {
+                path: 'admin-rental-history',
+                component: AdminRentalHistory,
+                canActivate: [authGuard]
+            },
+            {
+                path: 'admin-modify-rental/:id',
+                component: AdminModifyRental,
+                canActivate: [authGuard]
+            },
+            {
+                path: 'admin-car-list',
+                component: AdminCarList,
+                canActivate: [authGuard]
+            },
+            {
+                path: 'admin-car-modify/:id',
+                component: AdminCarModify,
+                canActivate: [authGuard]
+            },
+            {
+                path: 'admin-servicin/:id',
+                component: AdminServicing,
+                canActivate: [authGuard]
+            },
 
         ]
     }

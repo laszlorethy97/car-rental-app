@@ -11,9 +11,9 @@
             </div>
             <div>
                 <label for="endDate">End Date</label>
-                <input class="input" type="date" name="endDate" id="endDate" ngModel required minlength="4" #passWord="ngModel">
-                <div *ngIf="startDate.invalid && startDate.touched" style="color:red">
-                    Start date is required!
+                <input class="input" type="date" name="endDate" id="endDate" ngModel required #endDate="ngModel">
+                <div *ngIf="endDate.invalid && (endDate.touched || userForm.submitted)" style="color:red">
+                    End date is required!
                 </div>
             </div>
             <div>

@@ -12,16 +12,21 @@
             <p>Agent Tools</p>
             <div class="button-container">
                 <button (click)="navigateToAgentRentalHistory()" class="button">Rental History</button>
-                <button class="button">Create an invoice</button>
             </div>           
         </div>
         <div>
             <p>Admin Tools</p>
             <div class="button-container">
-                <button class="button">Rental History</button>
-                <button class="button">Cars</button>
-                <button (click)="logOut()" class="button">Log Out</button>
+                <button (click)="navigateToAdminRentalHistory()" class="button">Rental History</button>
+                <button (click)="navigateToAdminCarsList()" class="button">Cars</button>
+                <button class="button">Add New Car</button>
             </div>            
+        </div>
+        <div>
+            <p>Log Out</p>
+            <div class="button-container">
+            <button (click)="logOut()" class="button">Log Out</button>
+            </div>
         </div>
     </div>
     <div class="page-body">

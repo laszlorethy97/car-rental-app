@@ -29,6 +29,14 @@ export class Dashboard {
     this.router.navigate(['agent-rental-history']);
   }
 
+  navigateToAdminRentalHistory(){
+    this.router.navigate(['admin-rental-history']);
+  }
+
+  navigateToAdminCarsList(){
+    this.router.navigate(['admin-car-list']);
+  }
+
   logOut(){
     this.authService.logout();
     this.router.navigate(['']);

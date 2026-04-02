@@ -1,3 +1,4 @@
+using Azure.Core;
 using Azure.Core.Pipeline;
 using CarRentalSystem.DTO.RentalDTO;
 using Microsoft.EntityFrameworkCore;
@@ -135,7 +136,7 @@ public class RentalManager
     {
         var rental = await context.Rentals.FindAsync(dto.RentalId);
         if (rental == null)
-            return (false,"Rental not found");
+            return (false, $"Rental:{dto.RentalId} not found");
         if (rental.RentStatus != RentStatus.Active)
             return (false,$"Not in Active state! Current state:[{rental.RentStatus}]");
 
@@ -169,6 +170,25 @@ public class RentalManager
         return (true, "OK");
     }
 
-
-
+    public async Task<(bool success,string reason)> AdminStatusModify(RentalDecisionPutDto dto)
+    {
+        var rental = await context.Rentals.FindAsync(dto.RentalId);
+        if (rental == null) return (false, $"Rental:{dto.RentalId} not found");
+        var answer = dto.Answer.ToLower();
+      
+        if (answer == "requested")
+            rental.RentStatus = RentStatus.Requested;
+        else if (answer == "approved")
+            rental.RentStatus = RentStatus.Approved;
+        else if (answer == "active")
+            rental.RentStatus = RentStatus.Active;
+        else if (answer == "rejected")
+            rental.RentStatus = RentStatus.Rejected;
+        else if (answer == "closed")
+            rental.RentStatus = RentStatus.Closed;
+        else return (false, "Only the listed statuses are accepted!");
+        
+        await context.SaveChangesAsync();
+        return (true, "Ok");
+    }
 }

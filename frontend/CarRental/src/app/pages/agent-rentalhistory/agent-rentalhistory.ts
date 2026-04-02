@@ -2,6 +2,10 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Location } from '@angular/common';
 import { Router } from '@angular/router';
+import { RentalService } from '../../services/rental.service';
+import { RentIdToInvoiceDto } from '../../models/rent-id-to-invoice-dto';
+import { GetAllRentalsDto } from '../../models/get-all-rentals-dto';
+import { ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'app-agent-rentalhistory',
@@ -10,40 +14,49 @@ import { Router } from '@angular/router';
   styleUrl: './agent-rentalhistory.scss',
 })
 export class AgentRentalhistory {
-   rentals: Rental[] =  [
-    {
-      carId: 1,
-      startDate: '2026-04-01T10:00:00',
-      endDate: '2026-04-03T10:00:00',
-      brand: "Toyota",
-      model: "Corolla",
-      licensePlate: "ABC-123",
-      rentStatus: "Requested",
-      rentPrice: "15000 Ft"
-    },
-    {
-      carId: 2,
-      startDate: '2026-04-05T08:30:00',
-      endDate: '2026-04-07T18:00:00',
-      brand: "BMW",
-      model: "320d",
-      licensePlate: "XYZ-789",
-      rentStatus: "Approved",
-      rentPrice: "30000 Ft"
-    }
-  ];
+
+  rentals: GetAllRentalsDto [] = [];
 
   constructor (
     private readonly location: Location,
-    private readonly router:Router
+    private readonly router:Router,
+    private readonly rentalService: RentalService,
+    private readonly changeDetector: ChangeDetectorRef
   ){}
+
+
+  ngOnInit(){
+    this.getRentals();
+  }
+
+  getRentals(){
+    this.rentalService.getAllRentals().subscribe({
+      next: (res) => {
+        this.rentals = res;
+        this.changeDetector.detectChanges();
+      },
+      error: (err) => {
+        console.error(err.error.message);
+      }
+    });
+  }
 
   navigateBack(){
     this.location.back();
   }
 
   navigateToAddInvoice(id: number){
-    this.router.navigate(['add-invoice', id]);
+    const dto: RentIdToInvoiceDto = {rentId: id}
+    this.rentalService.makeInvoice(dto).subscribe({
+      next: (res) =>{
+        console.log('siker');
+        this.router.navigate(['add-invoice', id]);
+      },
+      error: (err) => {
+        console.error('error: ', err.error.message);
+        alert(err.error.message);
+      }
+    });
   }
 
   navigateToModify(id: number){
@@ -53,15 +66,18 @@ export class AgentRentalhistory {
   navigateToCloseRental(id: number){
     this.router.navigate(['close-rental', id]);
   }
+
+  activate(id: number){
+    const dto: RentIdToInvoiceDto = {rentId: id}
+    this.rentalService.activate(dto).subscribe({
+      next: (res) =>{
+        this.router.navigate(['deshboard']);
+      },
+      error: (err) => {
+        console.error('error: ', err.error.message);
+        alert(err.error.message);
+      }
+    });
+  }
 }
 
-interface Rental{
-  carId: number;
-  startDate: string;
-  endDate: string;
-  brand: string;
-  model: string;
-  licensePlate: string;
-  rentStatus: string;
-  rentPrice: string;
-}
