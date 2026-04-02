@@ -1,0 +1,69 @@
+<div class="wrapper">
+  <h3>Add New Car</h3>
+  <form class="form-container" (ngSubmit)="getForm(userForm)" #userForm="ngForm">
+    <div>
+      <label for="licensePlate">License Plate</label>
+      <input class="input" type="text" name="licensePlate" id="licensePlate" ngModel required #licensePlate="ngModel">
+    </div>
+        <div *ngIf="licensePlate.invalid && licensePlate.touched" style="color:red">
+            Only letters without accents are allowed
+         </div>
+    <div>
+      <label for="brand">Brand</label>
+      <input class="input" type="text" name="brand" id="brand" ngModel required #brand="ngModel">
+    </div>
+        <div *ngIf="brand.invalid && brand.touched" style="color:red">
+            Only letters without accents are allowed
+        </div>
+    
+    <div>
+      <label for="model">Model</label>
+      <input class="input" type="text" name="model" id="model" ngModel
+             required
+             #model="ngModel">
+    </div>
+        <div *ngIf="model.invalid && model.touched" style="color:red">
+            Only letters without accents are allowed
+        </div>
+    <div>
+      <label for="year">Year</label>
+      <input class="input" type="number" name="year" id="year" ngModel
+             required
+             #year="ngModel">
+    </div>
+        <div *ngIf="year.invalid && year.touched" style="color:red">
+            Only letters without accents are allowed
+        </div>
+    <div>
+      <label for="kilometrage">Kilometrage</label>
+      <input class="input" type="number" name="kilometrage" id="kilometrage" ngModel
+             required
+             min="0"
+             #kilometrage="ngModel">
+    </div>
+        <div *ngIf="kilometrage.invalid && kilometrage.touched" style="color:red">
+            Only letters without accents are allowed
+        </div>
+    <div>
+      <label for="rentPrice">Rent Price</label>
+      <input class="input" type="number" name="rentPrice" id="rentPrice" ngModel required #rentPrice="ngModel">
+    </div>
+        <div *ngIf="rentPrice.invalid && rentPrice.touched" style="color:red">
+            Only letters without accents are allowed
+        </div>
+    <div class="indent">
+      <label for="carStatus">car Status</label>
+      <input class="input" type="text" name="carStatus" id="carStatus" ngModel
+             required
+             pattern="^(Available|Unavailable|Service)$"
+             #carStatus="ngModel">
+        </div>
+            <div *ngIf="carStatus.invalid && carStatus.touched" style="color:red">
+            Only letters without accents are allowed<br>
+            choose one (Available | Unavailable | Service)
+        </div>
+    <div>
+      <button class="button" type="submit" [disabled]="userForm.invalid">Add</button>
+    </div>
+  </form>
+</div>
