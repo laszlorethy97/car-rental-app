@@ -40,4 +40,18 @@ public class CarController: ControllerBase
     {
         await manager.UpdateCar(id, car);
     }
+
+    [HttpPost("admin-maintenance-modify", Name = "AddMaintenance")]
+    [Authorize]
+    public async Task<IActionResult> AddMaintenance([FromBody] MaintenancePostDTO dto)
+    {
+        var success = await manager.AddMaintenance(dto);
+        
+        if (!success.success)
+        {
+            return BadRequest(success.reason);
+        }
+
+        return Ok();
+    }
 }

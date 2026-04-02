@@ -48,5 +48,35 @@ public class CarManager
         car.Id = id;
         context.Cars.Update(car);
         await context.SaveChangesAsync();
-    } 
+    }
+
+    public async Task<(bool success, string reason)> AddMaintenance(MaintenancePostDTO dto)
+    {
+        if (!await context.Cars.AnyAsync(c => c.Id == dto.Id))
+        {
+            return (false, "No Cars with matching Id");
+        }
+        if (DateTime.Parse(dto.StartDate) > DateTime.Parse(dto.EndDate))
+        {
+            return (false, "Input correct dates");
+        }
+
+        await context.CarMaintenances.AddAsync(new CarMaintenance
+        {
+            CarId = dto.Id,
+            StartDate = DateTime.Parse(dto.StartDate),
+            EndDate = DateTime.Parse(dto.EndDate)
+        });
+
+        var overlappingRentals = await context.Rentals.
+            Where(c => c.CarId == dto.Id && DateTime.Parse(dto.StartDate) < c.EndDate && c.StartDate < DateTime.Parse(dto.EndDate) && c.RentStatus != RentStatus.Rejected).ToListAsync();
+
+        foreach (var rental in overlappingRentals)
+        {
+            rental.RentStatus = RentStatus.Rejected;
+        }
+        
+        await context.SaveChangesAsync();
+        return (true, "Ok");
+    }
 }

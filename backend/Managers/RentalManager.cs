@@ -31,8 +31,9 @@ public class RentalManager
 
         bool hasConflictRental = await context.Rentals.AnyAsync(r =>
             r.CarId == RPD.CarId &&
-            startDate <= r.EndDate &&
-            endDate >= r.StartDate
+            r.RentStatus != RentStatus.Rejected &&
+            startDate < r.EndDate &&
+            endDate > r.StartDate
         );
 
         bool inMaintenance = await context.CarMaintenances.AnyAsync(m =>
