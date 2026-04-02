@@ -66,7 +66,7 @@ public class RentalController: ControllerBase
     }
 
     [HttpPut("modify")]
-    [Authorize]
+    //[Authorize]
     public async Task<IActionResult> PutRentalModify([FromBody] RentalDecisionPutDto dto)
     {
         var result = await manager.PutRentalModify(dto);
@@ -77,6 +77,7 @@ public class RentalController: ControllerBase
 
         }
         var rental = await manager.GetRentalById(dto.RentalId);
+        if (rental == null) return BadRequest(new { message = "Rental not found!" });
         return Ok(new { message = $"Modify successful: {dto.Answer}, status: {rental.RentStatus}" });
     }
 
@@ -92,6 +93,7 @@ public class RentalController: ControllerBase
 
         }
         var rental = await manager.GetRentalById(dto.RentalId);
+        if (rental == null) return BadRequest(new { message = "Rental not found!" });
         return Ok(new { message = $"Closed :) | {dto.Answer}, status: {rental.RentStatus}" });
     }
 
@@ -109,10 +111,11 @@ public class RentalController: ControllerBase
     }
 
     [HttpPut("admin-status-modify")]
-    [Authorize]
+    //[Authorize]
     public async Task<IActionResult> AdminStatusModifyer([FromBody] RentalDecisionPutDto dto)
     {
         var rental = await manager.GetRentalById(dto.RentalId);
+        if (rental == null) return BadRequest(new {message = "Rental not found!" });
         var beforeModifyLog = rental.RentStatus.ToString();
         var result = await manager.AdminStatusModify(dto);
         if(!result.success)
