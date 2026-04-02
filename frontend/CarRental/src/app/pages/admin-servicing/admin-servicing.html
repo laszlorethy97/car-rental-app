@@ -1,0 +1,25 @@
+<div class="wrapper">
+    <H3>Maintance</H3>
+    <div class="container">
+        <form class="form-container" (ngSubmit)="getForm(userForm)" #userForm="ngForm">
+            <div>
+                <label for="startDate">Start Date</label>
+                <input class="input" type="date" name="startDate" id="startDate" ngModel required #startDate="ngModel">
+                <div *ngIf="startDate.invalid && startDate.touched" style="color:red">
+                    Start date is required!
+                </div>
+            </div>
+            <div>
+                <label for="endDate">End Date</label>
+                <input class="input" type="date" name="endDate" id="endDate" ngModel required #endDate="ngModel">
+                <div *ngIf="endDate.invalid && (endDate.touched || userForm.submitted)" style="color:red">
+                    End date is required!
+                </div>
+            </div>
+            <div>
+                <button class="button" type="submit" [disabled]="userForm.invalid">Edit</button>
+            </div>
+        </form>
+    </div>
+</div>
+

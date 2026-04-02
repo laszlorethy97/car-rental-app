@@ -1,0 +1,21 @@
+<div class="wrapper">
+    <H3>Rental History</H3>
+    <div class="container">
+        <ol class="rental-list">
+            <li *ngFor="let rental of rentals" class="rental">
+                <div>Rental ID: {{rental.rentalId}}</div>
+                <div>rental duration: {{rental.startDate | date:'yyyy-MM-dd'}} - {{rental.endDate | date:'yyyy-MM-dd'}}</div>
+                <div>brand: {{rental.brand}}</div>
+                <div>model: {{rental.model}}</div>
+                <div>licensplate: {{rental.licensePlate}}</div>
+                <div>status: {{rental.rentStatus}}</div>
+                <div>price/day: {{rental.rentPrice}}</div>
+                <button (click)="navigateModify(rental.rentalId)" class="button">Status Modify</button>
+            </li>
+        </ol>
+        <button (click)="navigateBack()" class="button">back</button>
+    </div>
+</div>
+
+
+

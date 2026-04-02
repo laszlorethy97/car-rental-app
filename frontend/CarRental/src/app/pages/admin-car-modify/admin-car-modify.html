@@ -1,0 +1,45 @@
+<div class="wrapper">
+  <h3>Modify Car</h3>
+  <form class="form-container" (ngSubmit)="getForm(carForm)" #carForm="ngForm">
+    <div>
+      <label for="licensePlate">License Plate</label>
+      <input class="input" type="text" name="licensePlate" id="licensePlate" [(ngModel)]="car.licensePlate" required #licensePlate="ngModel">
+    </div>
+    <div>
+      <label for="brand">Brand</label>
+      <input class="input" type="text" name="brand" id="brand" [(ngModel)]="car.brand" required #brand="ngModel">
+    </div>
+    <div>
+      <label for="model">Model</label>
+      <input class="input" type="model" name="model" id="model" [(ngModel)]="car.model"
+             required
+             #model="ngModel">
+    </div>
+    <div>
+      <label for="year">Year</label>
+      <input class="input" type="text" name="year" id="year" [(ngModel)]="car.year"
+             required
+             #year="ngModel">
+    </div>
+    <div>
+      <label for="kilometrage">Kilometrage</label>
+      <input class="input" type="text" name="kilometrage" id="kilometrage" [(ngModel)]="car.kilometrage"
+             required
+             #kilometrage="ngModel">
+    </div>
+    <div>
+      <label for="rentPrice">Rent Price</label>
+      <input class="input" type="text" name="rentPrice" id="rentPrice" [(ngModel)]="car.rentPrice" required #rentPrice="ngModel">
+    </div>
+    <div class="indent">
+      <label for="carStatus">Car Status</label>
+      <input class="input" type="text" name="carStatus" id="carStatus" [(ngModel)]="car.carStatus"
+             required
+             #carStatus="ngModel">
+    </div>
+    <div>
+      <button class="button" type="submit" [disabled]="carForm.invalid">Edit</button>
+    </div>
+  </form>
+</div>
+

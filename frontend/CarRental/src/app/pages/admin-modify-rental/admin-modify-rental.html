@@ -1,0 +1,41 @@
+<div class="wrapper">
+  <h3>Modify Rental</h3>
+
+  <form class="form-container"
+        (ngSubmit)="getForm(invoiceForm)"
+        #invoiceForm="ngForm">
+
+    <div>
+      Would you like to update the status? If so, enter one of the following values:
+    </div>
+
+    <div>
+      <label for="answer">requested, approved, active, rejected, or closed</label>
+      <input class="input"
+             type="text"
+             name="answer"
+             id="answer"
+             #answer="ngModel"
+             ngModel
+             pattern="^(requested|approved|active|rejected|closed)$"
+             required>
+    </div>
+
+    <div *ngIf="answer.invalid && answer.touched" style="color:red;">
+      Only the following values are allowed: requested, approved, active, rejected, or closed.
+    </div>
+
+    <div>
+      <button class="button"
+              type="submit"
+              [disabled]="invoiceForm.invalid">
+        Update
+      </button>
+    </div>
+
+    <div>
+      <button class="button" (click)="navigateBack()">Back</button>
+    </div>
+
+  </form>
+</div>
