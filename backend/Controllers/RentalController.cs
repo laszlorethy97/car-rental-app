@@ -108,4 +108,20 @@ public class RentalController: ControllerBase
          return Ok(new { message = "activated successful"});
     }
 
+    [HttpPut("admin-status-modify")]
+    [Authorize]
+    public async Task<IActionResult> AdminStatusModifyer([FromBody] RentalDecisionPutDto dto)
+    {
+        var rental = await manager.GetRentalById(dto.RentalId);
+        var beforeModifyLog = rental.RentStatus.ToString();
+        var result = await manager.AdminStatusModify(dto);
+        if(!result.success)
+        {
+            return BadRequest(new {message = $"Status change failed! {result.reason}" });
+        }
+        var currentStatus = rental.RentStatus.ToString();
+        return Ok(new {message = $"Status change from {beforeModifyLog} " +
+            $"to {currentStatus} was successful" });
+    }
+
 }
