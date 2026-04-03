@@ -30,9 +30,11 @@ public class CarController: ControllerBase
     }
 
     [HttpPost("car", Name = "AddCar")]
-    async public Task AddCar(Car car)
+    [Authorize]
+    async public Task<IActionResult> AddCar(CarPostDTO carDTO)
     {
-        await manager.AddCar(car);
+        await manager.AddCar(carDTO);
+        return Ok();
     }
 
     [HttpPut("car/{id}", Name = "UpdateCar")]
