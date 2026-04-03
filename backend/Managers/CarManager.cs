@@ -99,15 +99,21 @@ public class CarManager
         if (car == null)
             return (false, $"Car:{dto.Id} not found");
 
+        var duplicate = await context.Cars
+            .AnyAsync(c => c.LicensePlate == dto.LicensePlate && c.Id != dto.Id);
+        if (duplicate)
+            return (false, "LicensePlate already exists");
+
+        if (!Enum.TryParse<CarStatus>(dto.CarStatus, true, out var status)
+            || !Enum.IsDefined(typeof(CarStatus), status))
+            return (false, "Invalid CarStatus");
+
         car.LicensePlate = dto.LicensePlate;
         car.Brand = dto.Brand;
         car.Model = dto.Model;
         car.Year = dto.Year;
         car.Kilometrage = dto.Kilometrage;
         car.RentPrice = dto.RentPrice;
-
-        if (!Enum.TryParse<CarStatus>(dto.CarStatus, true, out var status))
-            return (false, "Invalid CarStatus");
         car.CarStatus = status;
 
         await context.SaveChangesAsync();
