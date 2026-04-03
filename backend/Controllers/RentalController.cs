@@ -127,4 +127,9 @@ public class RentalController: ControllerBase
             $"to {currentStatus} was successful" });
     }
 
+    [HttpGet("unavailable-periods")]
+    public async Task<List<UnavailablePeriodsDto>> UnavailablePeriods(CarIdGetDTO dto)
+    {
+        return await manager.UnavailablePeriods(dto);
+    }
 }
