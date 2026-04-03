@@ -6,6 +6,7 @@ using System.Security.Claims;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 
 
 namespace CarRentalSystem;
@@ -164,5 +165,13 @@ public class UserManager
 
         await context.SaveChangesAsync();
         return true;
+    }
+
+    public async Task<List<UserGetRolesDTO>> GetRoles(int id)
+    {
+        return await context.Users.Include(r => r.Roles).Where(u => u.Id == id).SelectMany(r => r.Roles).Select(r => new UserGetRolesDTO
+        {
+            RoleType = r.RoleType
+        }).ToListAsync();
     }
 }
