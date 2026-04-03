@@ -38,8 +38,19 @@ public class CarManager
             CarStatus = c.CarStatus.ToString(),
         }).FirstOrDefaultAsync(c => c.Id == id);
     }
-    public async Task AddCar(Car car)
+    public async Task AddCar(CarPostDTO carDTO)
     {
+        Car car = new Car
+        {
+            LicensePlate = carDTO.LicensePlate,
+            Brand = carDTO.Brand,
+            Model = carDTO.Model,
+            Year = carDTO.Year,
+            Kilometrage = carDTO.Kilometrage,
+            RentPrice = carDTO.RentPrice,
+            CarStatus = carDTO.CarStatus
+        };
+    
         await context.Cars.AddAsync(car);
         await context.SaveChangesAsync();
     }
@@ -79,4 +90,6 @@ public class CarManager
         await context.SaveChangesAsync();
         return (true, "Ok");
     }
+
+    
 }
