@@ -38,21 +38,23 @@ public class CarManager
             CarStatus = c.CarStatus.ToString(),
         }).FirstOrDefaultAsync(c => c.Id == id);
     }
-    public async Task AddCar(CarPostDTO carDTO)
+    public async Task<bool> AddCar(CarPostDTO carDTO)
     {
+        Enum.TryParse<CarStatus>(carDTO.CarStatus, true, out var status);
         Car car = new Car
-        {
+            {
             LicensePlate = carDTO.LicensePlate,
             Brand = carDTO.Brand,
             Model = carDTO.Model,
             Year = carDTO.Year,
             Kilometrage = carDTO.Kilometrage,
             RentPrice = carDTO.RentPrice,
-            CarStatus = carDTO.CarStatus
+            CarStatus = status
         };
-    
+
         await context.Cars.AddAsync(car);
         await context.SaveChangesAsync();
+        return true;
     }
     public async Task UpdateCar(int id, Car car)
     {

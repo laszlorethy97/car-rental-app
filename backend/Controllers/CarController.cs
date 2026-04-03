@@ -31,10 +31,11 @@ public class CarController: ControllerBase
 
     [HttpPost("car", Name = "AddCar")]
     [Authorize]
-    async public Task<IActionResult> AddCar(CarPostDTO carDTO)
+    public async Task<IActionResult> AddCar(CarPostDTO carDTO)
     {
-        await manager.AddCar(carDTO);
-        return Ok();
+        bool success = await manager.AddCar(carDTO);
+        if(success) return Ok(new { message = "success"});
+        else return BadRequest (new { message = "not allowed"});
     }
 
     [HttpPut("car/{id}", Name = "UpdateCar")]
