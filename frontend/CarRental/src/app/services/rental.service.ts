@@ -42,6 +42,6 @@ export class RentalService {
   }
 
   adminModify(dto: RentalDecisionPutDto): Observable<{message: string}>{
-    return this.httpClient.put<{message: string}>('http://localhost:5000/api/CarRental/rental/modify',dto) //todo a path
+    return this.httpClient.put<{message: string}>('http://localhost:5000/api/CarRental/rental/admin-status-modify',dto)
   }
 }

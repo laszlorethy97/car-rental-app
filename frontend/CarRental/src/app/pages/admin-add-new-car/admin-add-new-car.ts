@@ -21,7 +21,8 @@ export class AdminAddNewCar {
   ){}
 
   getForm(form: NgForm){
-    const car: CreateCarDTO = form as unknown as CreateCarDTO
+    const car: CreateCarDTO = form.value as unknown as CreateCarDTO
+    console.log(car);
     this.carService.add(car).subscribe({
       next: (res) => {
         this.router.navigate(['deshboard']);

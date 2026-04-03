@@ -19,6 +19,7 @@ import { AdminModifyRental } from './pages/admin-modify-rental/admin-modify-rent
 import { AdminCarList } from './pages/admin-car-list/admin-car-list';
 import { AdminCarModify } from './pages/admin-car-modify/admin-car-modify';
 import { AdminServicing } from './pages/admin-servicing/admin-servicing';
+import { AdminAddNewCar } from './pages/admin-add-new-car/admin-add-new-car';
 import { authGuard } from './auth-guard';
 
 export const routes: Routes = [
@@ -48,7 +49,7 @@ export const routes: Routes = [
                 canActivate: [authGuard]
             },
             {
-                path: 'guest-form',
+                path: 'guest-form/:id',
                 component: GuestForm
             },
             {
@@ -114,6 +115,11 @@ export const routes: Routes = [
             {
                 path: 'admin-servicin/:id',
                 component: AdminServicing,
+                canActivate: [authGuard]
+            },
+            {
+                path: 'admin-add-new-car',
+                component: AdminAddNewCar,
                 canActivate: [authGuard]
             },
 

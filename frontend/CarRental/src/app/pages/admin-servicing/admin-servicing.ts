@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, NgForm } from '@angular/forms';
-import { CarRentPostDto } from '../../models/car-rent-post-dto';
+import { MaintancePostDto } from '../../models/maintance-post-dto';
 import { ActivatedRoute } from '@angular/router';
 import { CarService } from '../../services/car.service';
 import { Router } from '@angular/router';
@@ -31,7 +31,7 @@ export class AdminServicing {
   }
 
   getForm(carForm: NgForm){
-    const carRentPostDto: CarRentPostDto = {carId: this.carId, startDate: carForm.value.startDate, endDate: carForm.value.endDate};
+    const carRentPostDto: MaintancePostDto = {id: this.carId, startDate: carForm.value.startDate, endDate: carForm.value.endDate};
     this.carService.servicing(carRentPostDto).subscribe({
       next: (res) => {
         this.router.navigate(['deshboard']);

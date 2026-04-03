@@ -36,8 +36,8 @@ export class GuestAccess {
     });
   }
 
-  navigateForm(){
-    this.router.navigate(['guest-form']);
+  navigateForm(id: number){
+    this.router.navigate(['guest-form',id]);
   }
 }
 

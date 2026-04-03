@@ -3,23 +3,23 @@
         <div>
             <p>General User Tools</p>
             <div class="button-container">
-                <button (click)="navigateToEditProfile()" class="button">Edit Profile</button>
-                <button (click)="navigateToCars()" class="button">Car Rental</button>
-                <button (click)="navigateToRentalHistory()" class="button">Rental History</button>
+                <button [disabled]="!hasRole('general')" (click)="navigateToEditProfile()" class="button">Edit Profile</button>
+                <button [disabled] ="!hasRole('general')" (click)="navigateToCars()" class="button">Car Rental</button>
+                <button [disabled] ="!hasRole('general')" (click)="navigateToRentalHistory()" class="button">Rental History</button>
             </div>            
         </div>
         <div>
             <p>Agent Tools</p>
             <div class="button-container">
-                <button (click)="navigateToAgentRentalHistory()" class="button">Rental History</button>
+                <button [disabled] ="!hasRole('agent')" (click)="navigateToAgentRentalHistory()" class="button">Rental History</button>
             </div>           
         </div>
         <div>
             <p>Admin Tools</p>
             <div class="button-container">
-                <button (click)="navigateToAdminRentalHistory()" class="button">Rental History</button>
-                <button (click)="navigateToAdminCarsList()" class="button">Cars</button>
-                <button class="button">Add New Car</button>
+                <button [disabled] ="!hasRole('admin')" (click)="navigateToAdminRentalHistory()" class="button">Rental History</button>
+                <button [disabled] ="!hasRole('admin')" (click)="navigateToAdminCarsList()" class="button">Cars</button>
+                <button [disabled] ="!hasRole('admin')" (click)="navigateToAdminAddNewCar()" class="button">Add New Car</button>
             </div>            
         </div>
         <div>

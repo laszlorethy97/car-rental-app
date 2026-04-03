@@ -48,9 +48,27 @@
         Please enter 9-11 digits! (0630367114)
       </div>
     </div>
+
+    <div class="indent">
+      <label for="startDate">Start Date</label>
+      <input class="input" type="date" name="startDate" id="startDate" ngModel
+             required
+             #startDate="ngModel">
+      <div *ngIf="startDate.invalid && startDate.touched" style="color:red">
+        Start Date is required!
+      </div>
+    </div>
+        <div class="indent">
+      <label for="endDate">End Date</label>
+      <input class="input" type="date" name="endDate" id="endDate" ngModel
+             required
+             #endDate="ngModel">
+      <div *ngIf="endDate.invalid && endDate.touched" style="color:red">
+        End Date is required!
+      </div>
+    </div>
     <div>
       <button class="button" type="submit" [disabled]="userForm.invalid">send</button>
     </div>
-
   </form>
 </div>

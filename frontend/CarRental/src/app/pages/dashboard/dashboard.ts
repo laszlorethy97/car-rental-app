@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import { Role } from '../../models/role';
 
 @Component({
   selector: 'app-dashboard',
@@ -9,10 +10,20 @@ import { AuthService } from '../../services/auth.service';
   styleUrl: './dashboard.scss',
 })
 export class Dashboard {
+
+  roles: Role[] = [
+    {roleType: "agent"},
+    {roleType: "admin"},
+  ]
+
   constructor(
     private readonly router: Router,
     private readonly authService: AuthService
   ){}
+
+  hasRole(role: string): boolean{
+    return this.roles.some(r => r.roleType == role)
+  }
 
   navigateToRentalHistory(){
     this.router.navigate(['general-rental-history']);
@@ -41,4 +52,11 @@ export class Dashboard {
     this.authService.logout();
     this.router.navigate(['']);
   }
+
+  navigateToAdminAddNewCar(){
+    this.router.navigate(['admin-add-new-car']);
+  }
 }
+
+
+

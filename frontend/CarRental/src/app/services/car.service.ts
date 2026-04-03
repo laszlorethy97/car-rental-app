@@ -3,6 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { CarsGetDto } from '../models/cars-get-dto';
 import { CarRentPostDto } from '../models/car-rent-post-dto';
+import { CreateCarDTO } from '../models/create-car-dto';
+import { MaintancePostDto } from '../models/maintance-post-dto';
 
 @Injectable({
   providedIn: 'root',
@@ -22,7 +24,11 @@ export class CarService {
     return this.http.put<{ message: string }>('',dto);  //<< be kell irni az endpointot
   }
 
-  servicing(dto: CarRentPostDto): Observable<{ message: string }>{
-    return this.http.post<{ message: string }>('', dto); //<<path et irdd be
+  servicing(dto: MaintancePostDto): Observable<{ message: string }>{
+    return this.http.post<{ message: string }>('http://localhost:5000/api/CarRental/admin-maintenance-modify', dto);
+  }
+
+  add(dto: CreateCarDTO): Observable<{ message: string }>{
+    return this.http.post<{ message: string }>('http://localhost:5000/api/CarRental/car', dto);
   }
 }
