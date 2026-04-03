@@ -171,7 +171,6 @@ public class UserManager
     {
         return await context.Users.Include(r => r.Roles).Where(u => u.Id == id).SelectMany(r => r.Roles).Select(r => new UserGetRolesDTO
         {
-            Id = r.Id,
             RoleType = r.RoleType
         }).ToListAsync();
     }
