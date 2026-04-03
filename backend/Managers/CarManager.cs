@@ -26,7 +26,7 @@ public class CarManager
     }
     public async Task<CarsGetDTO?> GetCarById(int id)
     {
-        return await context.Cars.Select(c =>  new CarsGetDTO
+        return await context.Cars.Select(c => new CarsGetDTO
         {
             Id = c.Id,
             LicensePlate = c.LicensePlate,
@@ -42,7 +42,7 @@ public class CarManager
     {
         Enum.TryParse<CarStatus>(carDTO.CarStatus, true, out var status);
         Car car = new Car
-            {
+        {
             LicensePlate = carDTO.LicensePlate,
             Brand = carDTO.Brand,
             Model = carDTO.Model,
@@ -88,10 +88,60 @@ public class CarManager
         {
             rental.RentStatus = RentStatus.Rejected;
         }
-        
+
         await context.SaveChangesAsync();
         return (true, "Ok");
     }
 
-    
+    public async Task<(bool success, string reason)> ModifyCar(CarsGetDTO dto)
+    {
+        var car = await context.Cars.FindAsync(dto.Id);
+        if (car == null)
+            return (false, $"Car:{dto.Id} not found");
+
+        car.LicensePlate = dto.LicensePlate;
+        car.Brand = dto.Brand;
+        car.Model = dto.Model;
+        car.Year = dto.Year;
+        car.Kilometrage = dto.Kilometrage;
+        car.RentPrice = dto.RentPrice;
+
+        if (!Enum.TryParse<CarStatus>(dto.CarStatus, true, out var status))
+            return (false, "Invalid CarStatus");
+        car.CarStatus = status;
+
+        await context.SaveChangesAsync();
+        return (true, "Ok");
+    }
+
+    public async Task<(bool success, string reason)> DeleteCar(int id)
+    {
+        var car = await context.Cars
+            .Include(c => c.Rentals)
+            .FirstOrDefaultAsync(c => c.Id == id);
+
+        if (car == null)
+            return (false, $"Car:{id} not found");
+
+        var activeRentals = car.Rentals
+            .Where(r =>
+                   r.RentStatus == RentStatus.Active ||
+                   r.RentStatus == RentStatus.Approved)
+            .Select(r => r.RentStatus.ToString())
+            .ToList();
+
+        if (activeRentals.Any())
+            return (false, $"Car is in {string.Join(", ", activeRentals)} status!");
+
+        context.Rentals.RemoveRange(car.Rentals);
+        context.Cars.Remove(car);
+
+        await context.SaveChangesAsync();
+
+        return (true, "Ok");
+    }
+
+
+
+
 }

@@ -57,4 +57,33 @@ public class CarController: ControllerBase
 
         return Ok();
     }
+
+    [HttpPut("admin-car-modify")]
+    [Authorize]
+    public async Task<IActionResult> ModifyCar([FromBody] CarsGetDTO dto)
+    {
+        var result = await manager.ModifyCar(dto);
+        
+        if (!result.success)
+        {
+            return BadRequest(new { message = result.reason });
+
+        }
+
+        return Ok(new { message = "Car updated" });
+    }
+
+    [HttpDelete("admin-car-delete/{id}")]
+    [Authorize]
+    public async Task<IActionResult> DeleteCar(int id)
+    {
+        var result = await manager.DeleteCar(id);
+
+        if (!result.success)
+            return BadRequest(new { message = result.reason });
+
+        return Ok(new { message = "Car deleted" });
+    }
+
+
 }

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace CarRentalSystem.Migrations
 {
     /// <inheritdoc />
-    public partial class Elso : Migration
+    public partial class MigrationName : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -31,16 +31,16 @@ namespace CarRentalSystem.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Role",
+                name: "Roles",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    RoleType = table.Column<int>(type: "int", nullable: false)
+                    RoleType = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Role", x => x.Id);
+                    table.PrimaryKey("PK_Roles", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -60,6 +60,27 @@ namespace CarRentalSystem.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Users", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "CarMaintenances",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CarId = table.Column<int>(type: "int", nullable: false),
+                    StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EndDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CarMaintenances", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_CarMaintenances_Cars_CarId",
+                        column: x => x.CarId,
+                        principalTable: "Cars",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -109,9 +130,9 @@ namespace CarRentalSystem.Migrations
                 {
                     table.PrimaryKey("PK_RoleUser", x => new { x.RolesId, x.UsersId });
                     table.ForeignKey(
-                        name: "FK_RoleUser_Role_RolesId",
+                        name: "FK_RoleUser_Roles_RolesId",
                         column: x => x.RolesId,
-                        principalTable: "Role",
+                        principalTable: "Roles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -145,6 +166,11 @@ namespace CarRentalSystem.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_CarMaintenances_CarId",
+                table: "CarMaintenances",
+                column: "CarId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Invoices_RentId",
                 table: "Invoices",
                 column: "RentId",
@@ -175,6 +201,9 @@ namespace CarRentalSystem.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "CarMaintenances");
+
+            migrationBuilder.DropTable(
                 name: "Invoices");
 
             migrationBuilder.DropTable(
@@ -184,7 +213,7 @@ namespace CarRentalSystem.Migrations
                 name: "Rentals");
 
             migrationBuilder.DropTable(
-                name: "Role");
+                name: "Roles");
 
             migrationBuilder.DropTable(
                 name: "Cars");
