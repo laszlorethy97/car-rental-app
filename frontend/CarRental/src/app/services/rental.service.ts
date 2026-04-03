@@ -6,6 +6,7 @@ import { RentalHistoryDto } from '../models/rental-history-dto';
 import { RentIdToInvoiceDto } from '../models/rent-id-to-invoice-dto';
 import { GetAllRentalsDto } from '../models/get-all-rentals-dto';
 import { RentalDecisionPutDto } from '../models/rental-decision-put-dto';
+import { UnaviablePeriodDto } from '../models/unaviable-period-dto';
 
 @Injectable({
   providedIn: 'root',
@@ -43,5 +44,9 @@ export class RentalService {
 
   adminModify(dto: RentalDecisionPutDto): Observable<{message: string}>{
     return this.httpClient.put<{message: string}>('http://localhost:5000/api/CarRental/rental/admin-status-modify',dto)
+  }
+
+  getActiveDate(id: number): Observable<UnaviablePeriodDto[]>{
+    return this.httpClient.get<UnaviablePeriodDto[]>(`http://localhost:5000/api/CarRental/rental/unavailable-periods${id}`);
   }
 }

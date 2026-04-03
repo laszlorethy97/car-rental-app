@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { Role } from '../../models/role';
+import { UserService } from '../../services/user.service';
+import { ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'app-dashboard',
@@ -11,18 +13,33 @@ import { Role } from '../../models/role';
 })
 export class Dashboard {
 
-  roles: Role[] = [
-    {roleType: "agent"},
-    {roleType: "admin"},
-  ]
+  roles: Role[] = []
 
   constructor(
     private readonly router: Router,
-    private readonly authService: AuthService
+    private readonly authService: AuthService,
+    private readonly userService: UserService,
+    private readonly changeDetector: ChangeDetectorRef
   ){}
 
   hasRole(role: string): boolean{
     return this.roles.some(r => r.roleType == role)
+  }
+
+  ngOnInit(){
+    this.loadRoles();
+  }
+  loadRoles(){
+    this.userService.roles().subscribe({
+      next: (res) => {
+        this.roles = res;
+        console.log(this.roles);
+        this.changeDetector.detectChanges();
+      },
+      error: (err) => {
+        console.error(err.error.message);
+      }
+    });
   }
 
   navigateToRentalHistory(){

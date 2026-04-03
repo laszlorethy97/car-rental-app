@@ -21,7 +21,7 @@ export class CarService {
   }
 
   modify(dto: CarsGetDto): Observable<{ message: string }>{
-    return this.http.put<{ message: string }>('',dto);  //<< be kell irni az endpointot
+    return this.http.put<{ message: string }>('http://localhost:5000/api/CarRental/admin-car-modify',dto);
   }
 
   servicing(dto: MaintancePostDto): Observable<{ message: string }>{
@@ -30,5 +30,9 @@ export class CarService {
 
   add(dto: CreateCarDTO): Observable<{ message: string }>{
     return this.http.post<{ message: string }>('http://localhost:5000/api/CarRental/car', dto);
+  }
+
+  delete(id: number): Observable<{ message: string }>{
+    return this.http.delete<{ message: string }>(`http://localhost:5000/api/CarRental/admin-car-delete/${id}`);
   }
 }

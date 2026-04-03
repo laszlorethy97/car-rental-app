@@ -51,6 +51,14 @@ export class AdminCarList {
   }
 
   deleteCar(carId: number){
-    console.log(carId);
+    this.carService.delete(carId).subscribe({
+      next: (res) => {
+        this.changedetector.detectChanges();
+        this.router.navigate(['deshboard']);
+      },
+      error: (err) => {
+        console.error(err.error.message);
+      }
+    });
   }
 }

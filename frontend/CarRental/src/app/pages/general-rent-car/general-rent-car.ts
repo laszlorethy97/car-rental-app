@@ -5,6 +5,8 @@ import { CarRentPostDto } from '../../models/car-rent-post-dto';
 import { ActivatedRoute } from '@angular/router';
 import { RentalService } from '../../services/rental.service';
 import { Router } from '@angular/router';
+import { ChangeDetectorRef } from '@angular/core';
+import { UnaviablePeriodDto } from '../../models/unaviable-period-dto';
 
 
 @Component({
@@ -15,15 +17,31 @@ import { Router } from '@angular/router';
 })
 export class GeneralRentCar {
   carId!: number;
+  times: UnaviablePeriodDto[] = [];
 
   constructor(
     private readonly activeRoute: ActivatedRoute,
     private readonly rentalService: RentalService,
-    private readonly router: Router
+    private readonly router: Router,
+    private readonly changeDetector: ChangeDetectorRef
   ){}
 
   ngOnInit(){
     this.catchCarId();
+    this.loadUnavPeriods(this.carId);
+  }
+
+  loadUnavPeriods(id: number){
+    this.rentalService.getActiveDate(id).subscribe({
+      next: (res) => {
+        console.log(res);
+        this.times = res;
+        this.changeDetector.detectChanges();
+      },
+      error: (err) => {
+        console.error(err.error.message);
+      }
+    });
   }
 
   catchCarId(){

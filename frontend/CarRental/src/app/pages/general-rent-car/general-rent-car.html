@@ -1,6 +1,10 @@
 <div class="wrapper">
     <H3>Rent</H3>
     <div class="container">
+        <div>
+            <h1>The car isn't available at this time</h1>
+            <div class="times" *ngFor="let time of times"> {{ time.startDate | date:'yyyy-MM-dd' }} - {{ time.endDate | date:'yyyy-MM-dd' }}</div>
+        </div>
         <form class="form-container" (ngSubmit)="getForm(userForm)" #userForm="ngForm">
             <div>
                 <label for="startDate">Start Date</label>

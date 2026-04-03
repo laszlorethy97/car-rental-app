@@ -193,15 +193,15 @@ public class RentalManager
         return (true, "Ok");
     }
 
-    public async Task<List<UnavailablePeriodsDto>> UnavailablePeriods(CarIdGetDTO dto)
+    public async Task<List<UnavailablePeriodsDto>> UnavailablePeriods(int id)
     {
-        List<UnavailablePeriodsDto> unavailablePeriods = await context.Rentals.Where(r => r.CarId == dto.Id).Select(r => new UnavailablePeriodsDto
+        List<UnavailablePeriodsDto> unavailablePeriods = await context.Rentals.Where(r => r.CarId == id).Select(r => new UnavailablePeriodsDto
         {
             StartDate = $"{r.StartDate}",
             EndDate = $"{r.EndDate}"
         }).ToListAsync();
 
-        var maintenances = await context.CarMaintenances.Where(i => i.CarId == dto.Id).Select(m => new UnavailablePeriodsDto
+        var maintenances = await context.CarMaintenances.Where(i => i.CarId == id).Select(m => new UnavailablePeriodsDto
         {
             StartDate = $"{m.StartDate}",
             EndDate = $"{m.EndDate}"
