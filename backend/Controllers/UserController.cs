@@ -73,4 +73,14 @@ public class UserController: ControllerBase
         return Ok(new { message = "Update successful!" });
     }
 
+    [HttpGet("get-roles")]
+    [Authorize]
+    public async Task<IActionResult> GetRoles()
+    {
+        var userIdClaim = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+
+        if (userIdClaim == null) return Unauthorized("Invalid token: no user ID");
+
+        return Ok(await manager.GetRoles(int.Parse(userIdClaim)));
+    }
 }
