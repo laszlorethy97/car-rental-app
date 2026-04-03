@@ -58,6 +58,7 @@ export class AdminCarList {
       },
       error: (err) => {
         console.error(err.error.message);
+        alert(err.error.message);
       }
     });
   }

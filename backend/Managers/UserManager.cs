@@ -99,7 +99,13 @@ public class UserManager
 
     public async Task<User> builduser(RegistrationUserPostDTO registrationUserPostDTO)
     {
-        List<Role> roles = await AddRoles(registrationUserPostDTO.RoleIds.ToList());
+        // Ha nincs megadott role ID, akkor general role-t kapjon (id = 1)
+        List<int> roleIds = registrationUserPostDTO.RoleIds != null && registrationUserPostDTO.RoleIds.Count > 0
+            ? registrationUserPostDTO.RoleIds.ToList()
+            : new List<int> { 1 }; 
+
+        List<Role> roles = await AddRoles(roleIds);
+
         return new User
         {
             Email = registrationUserPostDTO.Email,

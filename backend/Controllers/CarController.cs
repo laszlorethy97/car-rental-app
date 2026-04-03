@@ -33,9 +33,12 @@ public class CarController: ControllerBase
     [Authorize]
     public async Task<IActionResult> AddCar(CarPostDTO carDTO)
     {
-        bool success = await manager.AddCar(carDTO);
-        if(success) return Ok(new { message = "success"});
-        else return BadRequest (new { message = "not allowed"});
+        var result = await manager.AddCar(carDTO);
+        if (!result.success)
+        {
+            return BadRequest(new { message = result.reason });
+        }
+        return Ok(new { message = "success" });
     }
 
     [HttpPut("car/{id}", Name = "UpdateCar")]

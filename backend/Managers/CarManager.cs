@@ -38,8 +38,13 @@ public class CarManager
             CarStatus = c.CarStatus.ToString(),
         }).FirstOrDefaultAsync(c => c.Id == id);
     }
-    public async Task<bool> AddCar(CarPostDTO carDTO)
+    public async Task<(bool success, string reason)> AddCar(CarPostDTO carDTO)
     {
+        var duplicate = await context.Cars
+       .AnyAsync(c => c.LicensePlate == carDTO.LicensePlate);
+        if (duplicate)
+            return (false,$"Ilyen rendszam már létezik:{carDTO.LicensePlate}");
+
         Enum.TryParse<CarStatus>(carDTO.CarStatus, true, out var status);
         Car car = new Car
         {
@@ -54,7 +59,7 @@ public class CarManager
 
         await context.Cars.AddAsync(car);
         await context.SaveChangesAsync();
-        return true;
+        return (true,"Ok");
     }
     public async Task UpdateCar(int id, Car car)
     {
