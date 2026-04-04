@@ -3,6 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { RegistrationUserDto } from '../models/registration-user-dto';
 import { EditProfileGetDto } from '../models/edit-profile-get-dto';
+import { GuestRentCarDto } from '../models/guest-rent-car-dto';
+
 import { Role } from '../models/role';
 
 @Injectable({
@@ -26,5 +28,9 @@ export class UserService {
 
   roles(): Observable<Role[]>{
     return this.httpclient.get<Role[]>('http://localhost:5000/api/CarRental/user/get-roles')
+  }
+
+  guestRent(dto: GuestRentCarDto): Observable<{ message: string }>{
+    return this.httpclient.post<{ message: string }>('http://localhost:5000/api/CarRental/user/guest-user-renting',dto)
   }
 }

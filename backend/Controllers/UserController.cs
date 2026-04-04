@@ -91,7 +91,7 @@ public class UserController: ControllerBase
 
         if (!success)
         {
-            return BadRequest(new { error = reason });
+            return BadRequest(new { message = reason });
         }
 
         return Ok(new { message = reason });

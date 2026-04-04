@@ -3,8 +3,8 @@ export interface GuestRentCarDto {
     email: string;
     firstName: string;
     lastName: string;
-    addres: string;
-    telephon: string;
+    address: string;
+    phoneNumber: string;
     startDate: string;
     endDate: string;
 }
