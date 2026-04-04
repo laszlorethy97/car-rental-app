@@ -1,6 +1,6 @@
 namespace CarRentalSystem;
 
-public class GeneralUserRegisterFromDTO
+public class GuestUserRegisterFromDTO
 {
     public int CarId {get; set;}
     public string Email {get; set;}

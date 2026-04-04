@@ -181,7 +181,7 @@ public class UserManager
         }).ToListAsync();
     }
 
-    public async Task<(bool success, string reason)> GeneralUserRegistration(GeneralUserRegisterFromDTO dto)
+    public async Task<(bool success, string reason)> GuestUserRegistration(GuestUserRegisterFromDTO dto)
     {
         var user = await context.Users.FirstOrDefaultAsync(u => u.Email == dto.Email);
 
