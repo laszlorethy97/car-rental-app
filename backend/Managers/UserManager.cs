@@ -180,4 +180,65 @@ public class UserManager
             RoleType = r.RoleType
         }).ToListAsync();
     }
+
+    public async Task<(bool success, string reason)> GuestUserRegistration(GuestUserRegisterFromDTO dto)
+    {
+        var user = await context.Users.FirstOrDefaultAsync(u => u.Email == dto.Email);
+
+        //Ellenőrzés-------------------------------------------
+            DateTime startDate = DateTime.Parse(dto.StartDate);
+            DateTime endDate = DateTime.Parse(dto.EndDate);
+
+            if (startDate >= endDate)
+                return (false, "Input correct dates");
+
+            if (startDate < DateTime.Now)
+                return (false, "Input correct dates");
+
+            bool hasConflictRental = await context.Rentals.AnyAsync(r =>
+                r.CarId == dto.CarId &&
+                r.RentStatus != RentStatus.Rejected &&
+                startDate < r.EndDate &&
+                endDate > r.StartDate
+            );
+
+            bool inMaintenance = await context.CarMaintenances.AnyAsync(m =>
+                m.CarId == dto.CarId &&
+                startDate <= m.EndDate &&
+                endDate >= m.StartDate
+            );
+
+            if (hasConflictRental || inMaintenance)
+                return (false, "Date not available");
+
+        //Ellenőrzés vége--------------------------------------
+
+        if (user == null)
+        {
+            user = new User
+            {
+                Email = dto.Email,
+                FirstName = dto.FirstName,
+                LastName = dto.LastName,
+                Address = dto.Address,
+                PhoneNumber = dto.PhoneNumber,
+            };
+
+            await context.Users.AddAsync(user);
+            await context.SaveChangesAsync();
+
+        }
+
+        await context.Rentals.AddAsync(new Rental
+        {
+            UserId = user.Id,
+            CarId = dto.CarId,
+            StartDate = DateTime.Parse(dto.StartDate),
+            EndDate = DateTime.Parse(dto.EndDate),
+            RentStatus = RentStatus.Requested,
+        });
+
+        await context.SaveChangesAsync();
+        return (true, "success");
+    }
 }

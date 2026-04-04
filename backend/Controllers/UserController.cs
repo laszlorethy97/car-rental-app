@@ -83,4 +83,17 @@ public class UserController: ControllerBase
 
         return Ok(await manager.GetRoles(int.Parse(userIdClaim)));
     }
+
+    [HttpPost("guest-user-renting")]
+    public async Task<IActionResult> GuestUserRegistration(GuestUserRegisterFromDTO dto)
+    {
+        var (success, reason) = await manager.GuestUserRegistration(dto);
+
+        if (!success)
+        {
+            return BadRequest(new { error = reason });
+        }
+
+        return Ok(new { message = reason });
+    }
 }
