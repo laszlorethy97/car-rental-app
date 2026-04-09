@@ -1,12 +1,9 @@
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Migrations.Operations;
-using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using Microsoft.AspNetCore.Routing;
-using Microsoft.EntityFrameworkCore.Infrastructure;
+
 
 
 namespace CarRentalSystem;
@@ -24,7 +21,14 @@ public class UserManager
     {
         var key = Encoding.ASCII.GetBytes("ezEgyNagyonTitkosKulcs123!Megerkezo");
         var credentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256);
-        var claims = new[] { new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()) };
+        var claims = new List<Claim> { 
+            new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+            };
+
+            foreach (var role in user.Roles)
+            {
+                claims.Add(new Claim(ClaimTypes.Role, role.RoleType.ToLower()));
+            }
         var token = new JwtSecurityToken(
             claims: claims,
             expires: DateTime.UtcNow.AddHours(1),
@@ -99,7 +103,6 @@ public class UserManager
 
     public async Task<User> builduser(RegistrationUserPostDTO registrationUserPostDTO)
     {
-        // Ha nincs megadott role ID, akkor general role-t kapjon (id = 1)
         List<int> roleIds = registrationUserPostDTO.RoleIds != null && registrationUserPostDTO.RoleIds.Count > 0
             ? registrationUserPostDTO.RoleIds.ToList()
             : new List<int> { 1 }; 
@@ -126,7 +129,7 @@ public class UserManager
 
     public async Task<string?> LoginUser(LoginUserPostDTO loginUserPostDTO)
     {
-        User user = await this.context.Users
+        User user = await this.context.Users.Include(u => u.Roles)
             .FirstOrDefaultAsync(u => u.UserName == loginUserPostDTO.UserName);
         if (user == null || loginUserPostDTO.Password != user.Password)
         {
@@ -185,7 +188,6 @@ public class UserManager
     {
         var user = await context.Users.FirstOrDefaultAsync(u => u.Email == dto.Email);
 
-        //Ellenőrzés-------------------------------------------
             DateTime startDate = DateTime.Parse(dto.StartDate);
             DateTime endDate = DateTime.Parse(dto.EndDate);
 

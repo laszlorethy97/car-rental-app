@@ -41,14 +41,9 @@ public class CarController: ControllerBase
         return Ok(new { message = "success" });
     }
 
-    [HttpPut("car/{id}", Name = "UpdateCar")]
-    public async Task UpdateCar(int id, [FromBody] Car car)
-    {
-        await manager.UpdateCar(id, car);
-    }
-
     [HttpPost("admin-maintenance-modify", Name = "AddMaintenance")]
     [Authorize]
+    [Authorize(Roles = "admin")]
     public async Task<IActionResult> AddMaintenance([FromBody] MaintenancePostDTO dto)
     {
         var success = await manager.AddMaintenance(dto);
@@ -63,6 +58,7 @@ public class CarController: ControllerBase
 
     [HttpPut("admin-car-modify")]
     [Authorize]
+    [Authorize(Roles = "admin")]
     public async Task<IActionResult> ModifyCar([FromBody] CarsGetDTO dto)
     {
         var result = await manager.ModifyCar(dto);
@@ -78,6 +74,7 @@ public class CarController: ControllerBase
 
     [HttpDelete("admin-car-delete/{id}")]
     [Authorize]
+    [Authorize(Roles = "admin")]
     public async Task<IActionResult> DeleteCar(int id)
     {
         var result = await manager.DeleteCar(id);

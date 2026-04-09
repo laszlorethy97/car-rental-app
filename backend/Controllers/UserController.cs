@@ -17,11 +17,6 @@ public class UserController: ControllerBase
         this.manager = manager;
     }
     
-    [HttpGet("user", Name = "GetUsers")]
-    async public Task<List<User>> GetUsers()
-    {
-        return await manager.GetUsers();
-    }
 
     [HttpGet("name")]
     [Authorize]
@@ -59,6 +54,7 @@ public class UserController: ControllerBase
     
     [HttpPut("editProfile")]
     [Authorize]
+    [Authorize(Roles = "general")]
     public async Task<IActionResult> UpdateUser([FromBody] UserEditProfilePutDto dto)
     {
         var userIdClaim = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;

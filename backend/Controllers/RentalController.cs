@@ -27,9 +27,10 @@ public class RentalController: ControllerBase
 
     [HttpPost("rental", Name = "AddRental")]
     [Authorize]
+    [Authorize(Roles = "general")]
     async public Task<IActionResult> AddRental(RentalPostDTO RPD)
     {
-        int userId = int.Parse(User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value);
+        int userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
         bool success = await manager.AddRental(RPD, userId);
 
         if (!success)
@@ -42,6 +43,7 @@ public class RentalController: ControllerBase
     
 
     [HttpPut("rental/{id}", Name = "UpdateRental")]
+    [Authorize(Roles = "admin, agent")]
     public async Task UpdateRentalByid(int id, [FromBody] Rental rental)
     {
         await manager.UpdateRentalByid(id, rental);
@@ -50,6 +52,7 @@ public class RentalController: ControllerBase
 
     [HttpGet("history", Name = "GetRentalHistory")]
     [Authorize]
+    [Authorize(Roles = "agent")]
     public async Task <ActionResult<List<RentalHistoryGetDTO>>> GetRentalHistory()
     {
          var userIdClaim = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier);
@@ -60,6 +63,7 @@ public class RentalController: ControllerBase
 
     [HttpGet("rentals", Name = "GetAllRentals")]
     [Authorize]
+    [Authorize(Roles = "admin, agent")]
     public async Task <ActionResult<List<GetAllRentalsDTO>>> GetAllRentals()
     {
         return Ok(await manager.GetAllRentals());
@@ -67,6 +71,7 @@ public class RentalController: ControllerBase
 
     [HttpPut("modify")]
     [Authorize]
+    [Authorize(Roles = "admin, agent")]
     public async Task<IActionResult> PutRentalModify([FromBody] RentalDecisionPutDto dto)
     {
         var result = await manager.PutRentalModify(dto);
@@ -83,6 +88,7 @@ public class RentalController: ControllerBase
 
     [HttpPut("close")]
     [Authorize]
+    [Authorize(Roles = "admin, agent")]
     public async Task<IActionResult> PutRentalClose([FromBody] RentalDecisionPutDto dto)
     {
         var result = await manager.CloseRental(dto);
@@ -100,6 +106,7 @@ public class RentalController: ControllerBase
 
     [HttpPost("activate")]
     [Authorize]
+    [Authorize(Roles = "admin, agent")]
     public async Task<IActionResult> Activate(RentIdToInvoiceDTO dto)
     {
         var result = await manager.Active(dto);
@@ -112,6 +119,7 @@ public class RentalController: ControllerBase
 
     [HttpPut("admin-status-modify")]
     [Authorize]
+    [Authorize(Roles = "admin")]
     public async Task<IActionResult> AdminStatusModifyer([FromBody] RentalDecisionPutDto dto)
     {
         var rental = await manager.GetRentalById(dto.RentalId);
